@@ -1,6 +1,6 @@
 * {
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
 }
 
 :root {
@@ -11,36 +11,82 @@
 body {
     display: grid;
     grid-template-areas:
-        "header header"
-        "nav nav"
-        "main main"
+        "header nav"
+        "aside main"
         "footer footer";
-    grid-template-columns: 300px 1fr;
-    grid-template-rows: auto auto 1fr auto;
+    grid-template-columns: 20rem 1fr;
+    grid-template-rows: auto 1fr auto;
     min-height: 100vh;
     font-size: 1rem;
 }
 
 header {
     grid-area: header;
-    padding: 10px 10px;
-    background-color: white;
+    padding: 2rem 1rem;
+}
+
+header a {
+    text-decoration: none;
 }
 
 nav {
     grid-area: nav;
     display: flex;
+    align-items: center;
     gap: 1.5rem;
-    background-color: moccasin;
+    padding: 1.2rem 3rem 1rem 0;
+}
+
+.btn_nav {
+    width: 3rem;
+    height: 3rem;
+    padding: 0.6rem;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
 }
 
 form {
     display: inline-block;
+    flex: 1;
+    position: relative;
+}
+
+#input_buscar {
+    width: 100%;
+    height: 3.3rem;
+    box-sizing: border-box;
+    padding-right: 2rem;
+    border-radius: 2rem;
+    padding-left: 1rem;
+    font-size: 1rem;
+}
+
+#btn_buscar {
+    position: absolute;
+    right: 3px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 aside {
     grid-area: aside;
     background-color: lightyellow;
+    padding: 1rem;
+}
+
+aside ul {
+    list-style: none;
+}
+
+aside li {
+    border: 1px solid darkkhaki;
+    margin: 0.4rem 0;
+    padding: 0.4rem 0.8rem;
+}
+
+aside li:hover {
+    background-color: lightgoldenrodyellow;
 }
 
 main {
@@ -58,4 +104,6 @@ section {
 footer {
     grid-area: footer;
     background-color: darkkhaki;
+    text-align: center;
+    padding: 1rem 0;
 }
