@@ -6,6 +6,7 @@
     <title>Projeto HDS</title>
     <link rel="icon" href="assets/icons/favicon.ico">
     <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="module" src="assets/js/main.js"></script>
 </head>
 <body>
@@ -53,16 +54,17 @@
                 </section>
                 <section class="card_info">
                     <h3>Setores Solicitantes</h3>
+                    <canvas id="setores_solicitantes_chart"></canvas>
                 </section>
                 <section class="card_info">
                     <h3>Setores Requisitados</h3>
+                    <canvas id="setores_requisitados_chart"></canvas>
                 </section>
             </div>
         </section>
         <section id="solicitacoes">
             <h2>Solicitações</h2>
-            <ul id="lista_solicitacoes">
-            </ul>
+            <ul id="lista_solicitacoes"></ul>
         </section>
         <section id="nova_solicitacao" hidden>
             <h3>Nova Solicitação</h3>
