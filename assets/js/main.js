@@ -42,7 +42,7 @@ document.addEventListener("keydown", event => {
     }
 });
 
-/************************************
+/*************************************
  * Estrutura Inicial de Solicitações *
  ************************************/
 
@@ -71,6 +71,36 @@ let listaDefault = [
         "status": true,
         "prioridade": "Baixa",
         "descricao": "Consectetur cupiditate velit dignissimos accusamus nesciunt Excepturi minima ut inventore.",
+    },
+    {
+        "chamado": 3,
+        "titulo": "Novo Título",
+        "setorSolicitante": "Instalação",
+        "responsavel": "Lorena Ipsuna",
+        "setorRequisitado": "Suporte Técnico",
+        "status": false,
+        "prioridade": "Alta",
+        "descricao": "Adipisicing voluptatem sunt earum ipsam id. Iusto dolorem voluptas iste dolores totam Suscipit animi quisquam quam nihil labore Quam magni.",
+    },
+    {
+        "chamado": 4,
+        "titulo": "Exemplo de Texto Um Pouco Mais Longo",
+        "setorSolicitante": "Estoque",
+        "responsavel": "Estoquista Chefe",
+        "setorRequisitado": "Infraestrutura",
+        "status": true,
+        "prioridade": "Média",
+        "descricao": "Adipisicing illo nobis possimus eum architecto. Obcaecati consequatur quam iure impedit aliquid quisquam. Hic veritatis eius enim aperiam possimus? Quasi ex deleniti ullam repellat quibusdam Perspiciatis error et culpa voluptate aliquam dolore. Repudiandae inventore mollitia expedita unde a Quasi rem adipisci libero eveniet ipsa. Libero mollitia odio necessitatibus magnam vitae. Consectetur cupiditate velit dignissimos accusamus nesciunt Excepturi minima ut inventore.",
+    },
+    {
+        "chamado": 5,
+        "titulo": "Último Teste",
+        "setorSolicitante": "Administrativo",
+        "responsavel": "John Doe",
+        "setorRequisitado": "Comercial",
+        "status": false,
+        "prioridade": "Baixa",
+        "descricao": "Accusamus nesciunt Excepturi minima ut inventore.",
     },
 ];
 
