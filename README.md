@@ -18,7 +18,7 @@ Solucionar um problema de uma empresa de médio porte que tem retrabalho causado
 ## Como vamos trabalhar
 
 - Fluxo: Backlog -> A Fazer -> Em Andamento -> Revisão -> Concluído
-- Rotina de Acompanhamento:
+- Rotina de Acompanhamento: Será realizado por meio de atualização contínua do quadro de tarefas pelos integrantes. Caso haja novas demandas, elas serão discutidas pela equipe e adicionadas no Backlog.
 - Ferramenta de Tarefas:
     - Trello: https://trello.com/b/DtzmjePO/projeto-hds
 
@@ -32,4 +32,8 @@ Solucionar um problema de uma empresa de médio porte que tem retrabalho causado
 
 ## Como Executar
 
-- Em construção
+- Acessar: https://felipemarcondev.github.io/projeto-hds/
+- Clonar o repositório e utilizar a funcionalidade *Go Live* no VS Code.
+- Clonar o repositório e executar as seguintes etapas:
+    - No terminal, na pasta raiz do projeto: `python -m http.server 8000`
+    - No navegador Google Chrome, digitar a URL `localhost:8000`

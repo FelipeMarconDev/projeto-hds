@@ -167,6 +167,7 @@ function criarItem(dict) {
     const item = document.createElement("li");
 
     item.innerHTML = `
+    <!-- Visualização de Chamado #AQUI -->
     <h4>Chamado #${String(dict.chamado).padStart(4, '0')} - ${dict.titulo}</h4>
     <p><b>${dict.setorSolicitante}</b> &mdash;&raquo; <b>${dict.setorRequisitado}</b></p>
     <p><b>Responsável:</b> ${dict.responsavel}</p>
@@ -176,6 +177,7 @@ function criarItem(dict) {
         <b>Descrição:</b><br>
         ${dict.descricao}
     </p>
+    <!-- Concluir Chamado #AQUI -->
     `;
 
     return item;
