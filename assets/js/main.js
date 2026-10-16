@@ -1,3 +1,15 @@
+/********************************* ***
+ * Importação de Arquivos Auxiliares *
+ ************************************/
+
+import GerenciadorSolicitacoes from "./GerenciadorSolicitacoes.js"
+import DadosSistema from "./DadosSistema.js"
+import {
+    criarItem,
+    preencherLista,
+    desenharGrafico,
+} from "./InterfaceSistema.js"
+
 /********************************* 
  * Definição de Elementos do DOM *
  ********************************/
@@ -49,191 +61,33 @@ document.addEventListener("keydown", event => {
     }
 });
 
-/*************************************
- * Estrutura Inicial de Solicitações *
- ************************************/
-
-// Na falta de Banco de Dados, essa estrutura permite armazenar dados.
-// Ela consiste de um array[] que armazena dois (ou mais) dicionários{}, cada um
-// desses dicionários possúi uma série de chaves: "valores".
-// As chaves servem como referência para obter seus valores, no seguinte
-// formato: dicionario.chave
-let listaDefault = [
-    {
-        chamado: 1,
-        titulo: "Teste",
-        setorSolicitante: "Financeiro",
-        responsavel: "Maria Joana",
-        setorRequisitado: "Infraestrutura",
-        status: true,
-        prioridade: "Média",
-        descricao: "Velit dignissimos accusamus nesciunt Excepturi minima ut inventore.",
-    },
-    {
-        chamado: 2,
-        titulo: "Mais Um Teste",
-        setorSolicitante: "Comercial",
-        responsavel: "João Silva",
-        setorRequisitado: "Estoque",
-        status: true,
-        prioridade: "Baixa",
-        descricao: "Consectetur cupiditate velit dignissimos accusamus nesciunt Excepturi minima ut inventore.",
-    },
-    {
-        chamado: 3,
-        titulo: "Novo Título",
-        setorSolicitante: "Instalação",
-        responsavel: "Lorena Ipsuna",
-        setorRequisitado: "Suporte Técnico",
-        status: false,
-        prioridade: "Alta",
-        descricao: "Adipisicing voluptatem sunt earum ipsam id. Iusto dolorem voluptas iste dolores totam Suscipit animi quisquam quam nihil labore Quam magni.",
-    },
-    {
-        chamado: 4,
-        titulo: "Exemplo de Texto Um Pouco Mais Longo",
-        setorSolicitante: "Estoque",
-        responsavel: "Estoquista Chefe",
-        setorRequisitado: "Infraestrutura",
-        status: true,
-        prioridade: "Média",
-        descricao: "Adipisicing illo nobis possimus eum architecto. Obcaecati consequatur quam iure impedit aliquid quisquam. Hic veritatis eius enim aperiam possimus? Quasi ex deleniti ullam repellat quibusdam Perspiciatis error et culpa voluptate aliquam dolore. Repudiandae inventore mollitia expedita unde a Quasi rem adipisci libero eveniet ipsa. Libero mollitia odio necessitatibus magnam vitae. Consectetur cupiditate velit dignissimos accusamus nesciunt Excepturi minima ut inventore.",
-    },
-    {
-        chamado: 5,
-        titulo: "Último Teste",
-        setorSolicitante: "Administrativo",
-        responsavel: "John Doe",
-        setorRequisitado: "Comercial",
-        status: false,
-        prioridade: "Baixa",
-        descricao: "Accusamus nesciunt Excepturi minima ut inventore.",
-    },
-];
-
-const dadosSetores = [
-    {
-        setor: "Comercial",
-        solicitante: 1,
-        requisitado: 1,
-        cor: "rgb(196, 76, 91)"
-    },
-    {
-        setor: "Administrativo",
-        solicitante: 1,
-        requisitado: 0,
-        cor: "rgb(207, 103, 79)"
-    },
-    {
-        setor: "Financeiro",
-        solicitante: 1,
-        requisitado: 0,
-        cor: "rgb(198, 137, 55)"
-    },
-    {
-        setor: "Estoque",
-        solicitante: 1,
-        requisitado: 1,
-        cor: "rgb(190, 164, 57)"
-    },
-    {
-        setor: "Suporte Técnico",
-        solicitante: 0,
-        requisitado: 1,
-        cor: "rgb(75, 145, 111)"
-    },
-    {
-        setor: "Infraestrutura",
-        solicitante: 0,
-        requisitado: 2,
-        cor: "rgb(58, 139, 157)"
-    },
-    {
-        setor: "Instalação",
-        solicitante: 1,
-        requisitado: 0,
-        cor: "rgb(117, 96, 180)"
-    },
-];
-
-
-/************************
- * Definição de Funções *
- ***********************/
-
-// Cria um elemento <li>, e coloca as informações de um dicionário passado como
-// argumento para esta função
-function criarItem(dict) {
-    const item = document.createElement("li");
-
-    item.innerHTML = `
-    <!-- Visualização de Chamado #AQUI -->
-    <h4>Chamado #${String(dict.chamado).padStart(4, '0')} - ${dict.titulo}</h4>
-    <p><b>${dict.setorSolicitante}</b> &mdash;&raquo; <b>${dict.setorRequisitado}</b></p>
-    <p><b>Responsável:</b> ${dict.responsavel}</p>
-    <p><b>Status:</b> ${(dict.status) ? "Aberto" : "Concluído"}</p>
-    <p><b>Prioridade:</b> ${dict.prioridade}</p>
-    <p>
-        <b>Descrição:</b><br>
-        ${dict.descricao}
-    </p>
-    <!-- Concluir Chamado #AQUI -->
-    `;
-
-    return item;
-}
-
-// Adiciona o item <li> criado, na <ul> do HTML
-function preencherLista(item) {
-    listaSolicitacoes.appendChild(item);
-}
-
-// Recebe um dos dois cards para criar o gráfico
-function desenharGrafico(setorCard) {
-    const setorDir = (setorCard === setorSolChart) ?  "solicitante" : "requisitado";
-    const dadosFiltrados = dadosSetores.filter(e => e[setorDir] > 0);
-
-    new Chart(setorCard, {
-        type: "doughnut",
-        data: {
-            labels: dadosFiltrados.map(e => e["setor"]),
-            datasets: [{
-                label: " ",
-                data: dadosFiltrados.map(e => e[setorDir]),
-                backgroundColor: dadosFiltrados.map(e => e["cor"]),
-                hoverOffset: 1,
-            }],
-        },
-        options: {
-            cutout: "33%",
-            plugins: {
-                legend: {
-                    position: "bottom",
-                },
-            },
-
-        },
-    });
-}
+/**********
+ * Main() *
+ *********/
 
 // Função principal do app.
 // Executa um loop pelo array, e para cada elemento (que é um dicionário),
 // executa a função de preencherLista, para essa função o loop passa como
 // argumento outra função criarItem, e essa função recebe como argumento o
 // dicionario que está temporariamente nomeado como elem
-function main() {
-    let contadorNumEmAberto = 0;
+async function main() {
+    const resposta = await fetch("./assets/dados/solicitacoesIniciaisExemplos.json");
+    const solicitacoesIniciaisExemplos = await resposta.json();
 
-    for (const elem of listaDefault) {
-        if (elem.status) contadorNumEmAberto++;
+    const gerenciador = new GerenciadorSolicitacoes();
 
-        preencherLista(criarItem(elem));
+    for (const elem of solicitacoesIniciaisExemplos) {
+        const solicitacao = gerenciador.adicionar(elem);
+        preencherLista(listaSolicitacoes, criarItem(solicitacao));
     }
 
+    let contadorNumEmAberto = DadosSistema.solicitacoesEmAberto(gerenciador.listar());
     numEmAberto.textContent = String(contadorNumEmAberto);
 
-    desenharGrafico(setorSolChart);
-    desenharGrafico(setorReqChart);
+    const dadosSetores = DadosSistema.totalSetores(gerenciador.listar());
+
+    desenharGrafico(dadosSetores, setorSolChart, "solicitante");
+    desenharGrafico(dadosSetores, setorReqChart, "requisitado");
 }
 
 // Executa a função principal do app
