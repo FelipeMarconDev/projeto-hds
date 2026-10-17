@@ -22,7 +22,6 @@ const inputBuscar  = document.querySelector("#input_buscar");
 
 // Main
 const dashboard         = document.querySelector("#dashboard");
-const solicitacoes      = document.querySelector("#solicitacoes");
 const listaSolicitacoes = document.querySelector("#lista_solicitacoes");
 const novaSolicitacao   = document.querySelector("#nova_solicitacao");
 
@@ -66,24 +65,30 @@ document.addEventListener("keydown", event => {
  *********/
 
 // Função principal do app.
-// Executa um loop pelo array, e para cada elemento (que é um dicionário),
-// executa a função de preencherLista, para essa função o loop passa como
-// argumento outra função criarItem, e essa função recebe como argumento o
-// dicionario que está temporariamente nomeado como elem
 async function main() {
+    // Arquivo JSON é convertido para uma array associativo
     const resposta = await fetch("./assets/dados/solicitacoesIniciaisExemplos.json");
     const solicitacoesIniciaisExemplos = await resposta.json();
 
+    // Inicia o objeto para Gerenciar as Solicitações
     const gerenciador = new GerenciadorSolicitacoes();
 
+    // Executa um loop pelo array, e para cada elemento (que é um objeto),
+    // executa a função de preencherLista, para essa função o loop passa como
+    // argumento outra função criarItem, e essa função recebe como argumento o
+    // objeto que está temporariamente nomeado como elem
     for (const elem of solicitacoesIniciaisExemplos) {
         const solicitacao = gerenciador.adicionar(elem);
         preencherLista(listaSolicitacoes, criarItem(solicitacao));
     }
 
+    // Faz a contagem de Solicitações que ainda não foram concluídas
     let contadorNumEmAberto = DadosSistema.solicitacoesEmAberto(gerenciador.listar());
     numEmAberto.textContent = String(contadorNumEmAberto);
 
+    // Calcula a quantidade de vezes que cada setor aparece como Solocitante e
+    // Requisitado, guarda essas informações em um array que seré utilizado para
+    // gerar os gráficos do Dashboard
     const dadosSetores = DadosSistema.totalSetores(gerenciador.listar());
 
     desenharGrafico(dadosSetores, setorSolChart, "solicitante");

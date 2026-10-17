@@ -2,23 +2,32 @@
  * Definição de Funções *
  ***********************/
 
-// Cria um elemento <li>, e coloca as informações de um dicionário passado como
-// argumento para esta função
+// Cria um elemento <li>, e coloca as informações de um objeto passado como
+// argumento para esta função, os campos do objeto são acessados usando a
+// sintaxe objeto.campo
 export function criarItem(solicitacao) {
     const item = document.createElement("li");
 
     item.innerHTML = `
     <!-- Visualização de Chamado #AQUI -->
-    <h4>Chamado #${String(solicitacao.chamado).padStart(4, '0')} - ${solicitacao.titulo}</h4>
-    <p><b>${solicitacao.setorSolicitante}</b> &mdash;&raquo; <b>${solicitacao.setorRequisitado}</b></p>
-    <p><b>Responsável:</b> ${solicitacao.responsavel}</p>
-    <p><b>Status:</b> ${solicitacao.estadoAtual}</p>
-    <p><b>Prioridade:</b> ${solicitacao.prioridade}</p>
-    <p>
-        <b>Descrição:</b><br>
-        ${solicitacao.descricao}
-    </p>
-    <!-- Concluir Chamado #AQUI -->
+    <details name="item_solicitacao_info">
+        <summary>
+            <div class="div_item_header">
+                <h4><span class="span_chamado" title="Chamado">#${String(solicitacao.chamado).padStart(4, '0')}</span> ${solicitacao.titulo}</h4>
+                <span title="Prioridade">${solicitacao.prioridade}</span>
+                <span class="span_estado" title="Status">${solicitacao.estadoAtual}</span>
+                <div class="div_item_header_setor">
+                    <span title="Setor Solicitante">${solicitacao.setorSolicitante}</span>
+                    <svg class="svg_arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M598.6 297.4C611.1 309.9 611.1 330.2 598.6 342.7L470.6 470.7C461.4 479.9 447.7 482.6 435.7 477.6C423.7 472.6 416 460.9 416 448L416 384L80 384C53.5 384 32 362.5 32 336L32 304C32 277.5 53.5 256 80 256L416 256L416 192C416 179.1 423.8 167.4 435.8 162.4C447.8 157.4 461.5 160.2 470.7 169.3L598.7 297.3z"/></svg>
+                    <span title="Setor Requisitado">${solicitacao.setorRequisitado}</span>
+                </div>
+            </div>
+        </summary>
+        <br>
+        <p><b>Responsável:</b> ${solicitacao.responsavel}</p>
+        <p><b>Descrição:</b> ${solicitacao.descricao}</p>
+        <!-- Concluir Chamado #AQUI -->
+    </details>
     `;
 
     return item;
