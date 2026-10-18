@@ -1,47 +1,47 @@
 [
     {
-        "titulo": "Teste",
-        "responsavel": "Maria Joana",
+        "titulo": "Conferência de Equipamentos de Rede",
+        "responsavel": "Carlos Mendes",
         "setorSolicitante": "Financeiro",
         "setorRequisitado": "Infraestrutura",
         "estadoAtual": "Aberto",
         "prioridade": "Média",
-        "descricao": "Velit dignissimos accusamus nesciunt Excepturi minima ut inventore."
+        "descricao": "Solicitamos a conferência dos equipamentos de rede instalados na unidade para atualização do controle patrimonial."
     },
     {
-        "titulo": "Mais Um Teste",
-        "responsavel": "João Silva",
+        "titulo": "Separação de Materiais para Instalações",
+        "responsavel": "Ana Paula",
         "setorSolicitante": "Comercial",
         "setorRequisitado": "Estoque",
         "estadoAtual": "Aberto",
         "prioridade": "Baixa",
-        "descricao": "Consectetur cupiditate velit dignissimos accusamus nesciunt Excepturi minima ut inventore."
+        "descricao": "Solicitamos a separação de ONUs, conectores ópticos e cabos de rede para as próximas instalações agendadas. Favor verificar a disponibilidade dos materiais e informar se será necessário solicitar reposição."
     },
     {
-        "titulo": "Novo Título",
-        "responsavel": "Lorena Ipsuna",
+        "titulo": "Falha de Autenticação em Nova Instalação",
+        "responsavel": "Mariana Costa",
         "setorSolicitante": "Instalação",
         "setorRequisitado": "Suporte Técnico",
         "estadoAtual": "Concluído",
         "prioridade": "Alta",
-        "descricao": "Adipisicing voluptatem sunt earum ipsam id. Iusto dolorem voluptas iste dolores totam Suscipit animi quisquam quam nihil labore Quam magni."
+        "descricao": "Durante a instalação de um novo assinante, a ONU apresentou sinal óptico adequado, mas não estabeleceu conexão com a internet. Solicitamos a verificação das configurações de autenticação e do provisionamento do equipamento. O problema foi resolvido após a correção das configurações e a validação da conexão."
     },
     {
-        "titulo": "Exemplo de Texto Um Pouco Mais Longo",
-        "responsavel": "Estoquista Chefe",
+        "titulo": "Avaliação Técnica de Equipamentos em Estoque",
+        "responsavel": "Roberto Almeida",
         "setorSolicitante": "Estoque",
         "setorRequisitado": "Infraestrutura",
         "estadoAtual": "Em Andamento",
         "prioridade": "Média",
-        "descricao": "Adipisicing illo nobis possimus eum architecto. Obcaecati consequatur quam iure impedit aliquid quisquam. Hic veritatis eius enim aperiam possimus? Quasi ex deleniti ullam repellat quibusdam Perspiciatis error et culpa voluptate aliquam dolore. Repudiandae inventore mollitia expedita unde a Quasi rem adipisci libero eveniet ipsa. Libero mollitia odio necessitatibus magnam vitae. Consectetur cupiditate velit dignissimos accusamus nesciunt Excepturi minima ut inventore."
+        "descricao": "Solicitamos uma avaliação técnica dos equipamentos de rede armazenados no estoque, pois foram identificadas divergências entre as especificações dos produtos e os registros de entrada. É necessário verificar a compatibilidade dos equipamentos com a infraestrutura de fibra óptica utilizada pela empresa, identificar possíveis itens defeituosos e confirmar quais materiais podem ser destinados às equipes de campo. Também solicitamos orientação sobre os procedimentos adequados para armazenamento e conservação dos componentes ópticos, incluindo ONUs, conectores, cordões ópticos e divisores PLC. Além disso, precisamos confirmar se os equipamentos disponíveis atendem aos requisitos técnicos das instalações previstas para as próximas semanas, evitando atrasos nos atendimentos. Após a análise, pedimos o envio de um relatório com os itens aprovados para uso, os que precisam de manutenção e aqueles que devem ser separados para substituição. Caso seja necessária a aquisição de novos materiais, solicitamos que essa necessidade seja informada para que o estoque possa iniciar o processo de reposição."
     },
     {
-        "titulo": "Último Teste",
-        "responsavel": "John Doe",
+        "titulo": "Atualização dos Materiais de Divulgação dos Planos",
+        "responsavel": "Fernanda Oliveira",
         "setorSolicitante": "Administrativo",
         "setorRequisitado": "Comercial",
         "estadoAtual": "Concluído",
         "prioridade": "Baixa",
-        "descricao": "Accusamus nesciunt Excepturi minima ut inventore."
+        "descricao": "Solicitamos a atualização dos materiais de divulgação dos planos de internet, incluindo velocidades, valores mensais e condições de contratação. A equipe comercial revisou as informações e encaminhou a versão atualizada ao setor administrativo para organização dos documentos internos."
     }
 ]
