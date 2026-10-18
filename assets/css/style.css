@@ -24,6 +24,8 @@
     --cor_verde: rgb(75, 145, 111);
     --cor_turquesa: rgb(58, 139, 157);
     --cor_violeta: rgb(117, 96, 180);
+
+    --header_altura: 142px;
 }
 
 * {
@@ -34,34 +36,46 @@
 
 body {
     display: grid;
-    grid-template-areas:
-        "header nav"
-        "aside main"
-        "footer footer";
-    grid-template-columns: 20rem 1fr;
+    grid-template-columns: 1fr;
     grid-template-rows: auto 1fr auto;
     background-color: var(--cor_clara);
     color: var(--cor_escura);
     height: 100dvh;
     font-size: 1rem;
-    overflow: hidden;
 }
 
 header {
-    grid-area: header;
-    padding: 2rem 1rem;
+    background-color: var(--cor_clara);
+    padding: 1rem 1.2rem 0.4rem;
+    height: var(--header_altura);
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    border-bottom: 0.4rem solid var(--cor_secundaria_light2);
+}
+
+header h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    color: var(--cor_primaria_dark2);
+    padding: 0 2rem;
+}
+
+header h1:hover {
+    color: var(--cor_primaria_dark1);
 }
 
 header a {
     text-decoration: none;
+    color: unset;
 }
 
 nav {
-    grid-area: nav;
     display: flex;
     align-items: center;
     gap: 1.5rem;
-    padding: 1.2rem 2rem 1rem;
+    padding: 1rem 2rem 0.4rem;
 }
 
 .btn_nav {
@@ -106,10 +120,29 @@ form {
     transform: translateY(-50%);
 }
 
+main {
+    display: grid;
+    grid-template-columns: 20rem 1fr;
+    background-color: var(--cor_clara);
+    width: 100%;
+    max-width: 1400px;
+    justify-self: center;
+}
+
+main.filtro_oculto {
+    grid-template-columns: minmax(0, 1fr);
+}
+
 aside {
-    grid-area: aside;
     background-color: var(--cor_primaria_light2);
     padding: 1rem;
+    position: sticky;
+    top: var(--header_altura);
+    align-self: start;
+}
+
+aside h3:not(:first-child) {
+    margin-top: 1rem;
 }
 
 aside ul {
@@ -139,10 +172,8 @@ aside li:active {
     background-color: var(--cor_secundaria_light1);
 }
 
-main {
-    grid-area: main;
-    background-color: var(--cor_clara);
-    overflow-y: auto;
+#area_principal {
+    margin-top: 1rem;
 }
 
 section {
@@ -279,7 +310,6 @@ section h2 {
 }
 
 footer {
-    grid-area: footer;
     background-color: var(--cor_primaria_dark1);
     color: var(--cor_clara);
     text-align: center;

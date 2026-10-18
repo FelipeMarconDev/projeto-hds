@@ -17,10 +17,15 @@ import {
 // Nav
 const btnCriar     = document.querySelector("#btn_criar");
 const btnDashboard = document.querySelector("#btn_dashboard");
+const btnFiltrar   = document.querySelector("#btn_filtrar");
 const btnBuscar    = document.querySelector("#btn_buscar");
 const inputBuscar  = document.querySelector("#input_buscar");
 
+// Aside
+const barraLateralFiltro = document.querySelector("#barra_lateral_filtro");
+
 // Main
+const mainArea          = document.querySelector("main");
 const dashboard         = document.querySelector("#dashboard");
 const listaSolicitacoes = document.querySelector("#lista_solicitacoes");
 const novaSolicitacao   = document.querySelector("#nova_solicitacao");
@@ -41,6 +46,11 @@ btnDashboard.addEventListener("click", () => {
     dashboard.hidden = !dashboard.hidden;
 });
 
+btnFiltrar.addEventListener("click", () => {
+    barraLateralFiltro.hidden = !barraLateralFiltro.hidden;
+    mainArea.classList.toggle("filtro_oculto", barraLateralFiltro.hidden);
+});
+
 // Cria evento para abrir o painel de Nova Solicitação quando o usuário clica no
 // botão de +, e também fecha a janela se clicar em qualquer lugar fora do painel
 document.addEventListener("click", event => {
@@ -48,7 +58,7 @@ document.addEventListener("click", event => {
     if (btnCriar.contains(event.target)) {
         novaSolicitacao.hidden = false;
     // Se o painel NÃO for o alvo clicado
-    } else if(!novaSolicitacao.contains(event.target)) {
+    } else if (!novaSolicitacao.contains(event.target)) {
         novaSolicitacao.hidden = true;
     }
 });
