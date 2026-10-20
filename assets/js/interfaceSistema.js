@@ -17,50 +17,99 @@ const mainArea          = document.querySelector("main");
 const dashboard         = document.querySelector("#dashboard");
 const listaSolicitacoes = document.querySelector("#lista_solicitacoes");
 const novaSolicitacao   = document.querySelector("#nova_solicitacao");
+const formulario        = document.querySelector("#form_nova_solicitacao");
 
 // Dashboard
 const numEmAberto   = document.querySelector("#num_em_aberto");
 const setorSolChart = document.querySelector("#setores_solicitantes_chart");
 const setorReqChart = document.querySelector("#setores_requisitados_chart");
 
+
 /**************************************************************
  * Event Listeners (Detector de Eventos)                      *
  * Aguarda algo acontecer para executar uma função específica *
  *************************************************************/
 
-// Cria evento para ativar e desativar o painel de Dashboard quando o
-// usuário clica no botão
-btnDashboard.addEventListener("click", () => {
-    dashboard.hidden = !dashboard.hidden;
-});
+export function configurarEventos(gerenciador, atualizarInterface) {
+    // Cria evento para ativar e desativar o painel de Dashboard quando o
+    // usuário clica no botão
+    btnDashboard.addEventListener("click", () => {
+        dashboard.hidden = !dashboard.hidden;
+    });
 
-btnFiltrar.addEventListener("click", () => {
-    barraLateralFiltro.hidden = !barraLateralFiltro.hidden;
-    mainArea.classList.toggle("filtro_oculto", barraLateralFiltro.hidden);
-});
+    btnFiltrar.addEventListener("click", () => {
+        barraLateralFiltro.hidden = !barraLateralFiltro.hidden;
+        mainArea.classList.toggle("filtro_oculto", barraLateralFiltro.hidden);
+    });
 
-// Cria evento para abrir o painel de Nova Solicitação quando o usuário clica no
-// botão de +, e também fecha a janela se clicar em qualquer lugar fora do painel
-document.addEventListener("click", event => {
-    // Se o botão for o alvo clicado
-    if (btnCriar.contains(event.target)) {
-        novaSolicitacao.hidden = false;
-    // Se o painel NÃO for o alvo clicado
-    } else if (!novaSolicitacao.contains(event.target)) {
-        novaSolicitacao.hidden = true;
-    }
-});
+    // Cria evento para abrir o painel de Nova Solicitação quando o usuário clica no
+    // botão de +, e também fecha a janela se clicar em qualquer lugar fora do painel
+    document.addEventListener("click", event => {
+        // Se o botão for o alvo clicado
+        if (btnCriar.contains(event.target)) {
+            novaSolicitacao.hidden = false;
+        // Se o painel NÃO for o alvo clicado
+        } else if (!novaSolicitacao.contains(event.target)) {
+            novaSolicitacao.hidden = true;
+        }
+    });
 
-// Cria evento para fechar pop-up de Nova Solicitação quando o usuário aperta Esc
-document.addEventListener("keydown", event => {
-    if (event.key === "Escape") {
-        novaSolicitacao.hidden = true;
-    }
-});
+    // Cria evento para fechar pop-up de Nova Solicitação quando o usuário aperta Esc
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape") {
+            novaSolicitacao.hidden = true;
+        }
+    });
+
+    // Evento que acontece quando o formulário é enviado, previne a execução
+    // padrão e coleta os dados para adicionar ao gerenciador
+    formulario.addEventListener("submit", (event) => {
+        // Previne que o botão envie para servidor, causando erro HTTP
+        event.preventDefault();
+
+        // Transforma array de arrays gerado pelo FormData(name, value) em objeto
+        // e adiciona como Nova Solicitação ao GerenciadorSolicitacoes
+        const dados = Object.fromEntries(new FormData(formulario));
+        gerenciador.adicionar(dados);
+
+        // Atualiza a interface após cada nova inserção
+        atualizarInterface();
+    });
+}
+
 
 /************************
  * Definição de Funções *
  ***********************/
+
+function preencherFiltros(setores, prioridades, estados) {
+    for (const setor of setores) {
+        const li = document.createElement("li");
+        li.textContent = setor;
+        barraLateralFiltro.querySelector("#aside_lista_setores").append(li);
+    }
+
+    for (const prioridade of prioridades) {
+        const li = document.createElement("li");
+        li.textContent = prioridade;
+        barraLateralFiltro.querySelector("#aside_lista_prioridades").append(li);
+    }
+
+    for (const estado of estados) {
+        const li = document.createElement("li");
+        li.textContent = estado;
+        barraLateralFiltro.querySelector("#aside_lista_status").append(li);
+    }
+}
+
+function preencherFormSelects(setores, prioridades, estados) {
+
+}
+
+export function exibirDadosDinamicos(setores, prioridades, estados) {
+    preencherFiltros(setores, prioridades, estados);
+    preencherFormSelects(setores, prioridades, estados);
+}
 
 // Recebe o número de solicitações em aberto e exibe no card do Dashboard
 export function exibirNumSolEmAbertoDashboard(contador) {
@@ -124,10 +173,13 @@ function criarItem(solicitacao) {
                 </div>
             </div>
         </summary>
-        <br>
-        <p><b>Responsável:</b> ${solicitacao.responsavel}</p>
-        <p><b>Descrição:</b> ${solicitacao.descricao}</p>
-        <!-- Concluir Chamado #AQUI -->
+        <div class="div_item_info">
+            <p><b>Responsável:</b> ${solicitacao.responsavel}</p>
+            <p><b>Descrição:</b> ${solicitacao.descricao}</p>
+        </div>
+        <div class="div_item_buttons">
+            <!-- Concluir Chamado #AQUI -->
+        </div>
     </details>
     `;
 

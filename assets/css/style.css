@@ -249,8 +249,8 @@ section h2 {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 800px;
-    height: 480px;
+    min-width: 640px;
+    min-height: 480px;
     background-color: var(--cor_clara);
     border: 1px solid var(--cor_escura);
     box-shadow: 0 0 1px 5000px rgba(0, 0, 0, 0.6);
@@ -345,6 +345,18 @@ section h2 {
     vertical-align: middle;
     color: var(--cor_primaria_light1);
     fill: currentColor;
+}
+
+.div_item_info {
+    margin-top: 0.8rem;
+}
+
+.div_item_info p {
+    margin-top: 0.4rem;
+}
+
+.div_item_buttons {
+    display: flex;
 }
 
 footer {

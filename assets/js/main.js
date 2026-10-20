@@ -5,6 +5,8 @@
 import GerenciadorSolicitacoes from "./GerenciadorSolicitacoes.js"
 import DadosSistema from "./DadosSistema.js"
 import {
+    exibirDadosDinamicos,
+    configurarEventos,
     exibirNumSolEmAbertoDashboard,
     exibirGraficosDashboard,
     exibirSolicitacoes,
@@ -28,20 +30,34 @@ async function main() {
         const _ = gerenciador.adicionar(elem);
     }
 
-    // Passa os dados de Solicitações para a interface exibir
-    const solicitacoesMain = gerenciador.listar();
-    exibirSolicitacoes(solicitacoesMain);
 
-    // Faz a contagem de Solicitações que ainda não foram concluídas e exibe no
-    // Dashboard
-    const contadorNumEmAberto = DadosSistema.solicitacoesEmAberto(solicitacoesMain);
-    exibirNumSolEmAbertoDashboard(contadorNumEmAberto);
+    function atualizarInterface() {
+        const solicitacoes = gerenciador.listar();
 
-    // Calcula a quantidade de vezes que cada setor aparece como Solocitante e
-    // Requisitado, guarda essas informações em um array que seré utilizado para
-    // gerar os gráficos do Dashboard
-    const dadosSetores = DadosSistema.totalSetores(solicitacoesMain);
-    exibirGraficosDashboard(dadosSetores);
+        // Passa os dados de Solicitações para a interface exibir
+        exibirSolicitacoes(solicitacoes);
+
+        // Faz a contagem de Solicitações que ainda não foram concluídas e exibe no
+        // Dashboard
+        const contadorNumEmAberto = DadosSistema.solicitacoesEmAberto(solicitacoes);
+        exibirNumSolEmAbertoDashboard(contadorNumEmAberto);
+
+        // Calcula a quantidade de vezes que cada setor aparece como Solocitante e
+        // Requisitado, guarda essas informações em um array que seré utilizado para
+        // gerar os gráficos do Dashboard
+        const dadosSetores = DadosSistema.totalSetores(solicitacoes);
+        exibirGraficosDashboard(dadosSetores);
+    }
+
+    exibirDadosDinamicos(
+        DadosSistema.setores.map(e => e["nome"]),
+        DadosSistema.prioridades,
+        DadosSistema.estados
+    );
+
+    configurarEventos(gerenciador, atualizarInterface);
+
+    atualizarInterface();
 }
 
 // Executa a função principal do app
