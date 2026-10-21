@@ -11,6 +11,7 @@ const inputBuscar  = document.querySelector("#input_buscar");
 
 // Aside
 const barraLateralFiltro = document.querySelector("#barra_lateral_filtro");
+const btnAplicarFiltro   = document.querySelector("#btn_aplicar_filtro");
 
 // Main
 const mainArea          = document.querySelector("main");
@@ -23,6 +24,9 @@ const formulario        = document.querySelector("#form_nova_solicitacao");
 const numEmAberto   = document.querySelector("#num_em_aberto");
 const setorSolChart = document.querySelector("#setores_solicitantes_chart");
 const setorReqChart = document.querySelector("#setores_requisitados_chart");
+
+// CSS
+const mediaQuery = window.matchMedia("(max-width: 972px)");
 
 
 /**************************************************************
@@ -37,9 +41,17 @@ export function configurarEventos(gerenciador, atualizarInterface) {
         dashboard.hidden = !dashboard.hidden;
     });
 
+    // Quando clica no botão de filtro, oculta a barra lateral de filtros, e
+    // adiciona uma classe ao main para ocupar todo o espaço disponível
     btnFiltrar.addEventListener("click", () => {
         barraLateralFiltro.hidden = !barraLateralFiltro.hidden;
-        mainArea.classList.toggle("filtro_oculto", barraLateralFiltro.hidden);
+    });
+
+    // Quando a tela fica menor que o mediaQuery, esconde o filtro
+    mediaQuery.addEventListener("change", esconderFiltro);
+
+    btnAplicarFiltro.addEventListener("click", () => {
+        barraLateralFiltro.hidden = (mediaQuery.matches) ? true : false;
     });
 
     // Cria evento para abrir o painel de Nova Solicitação quando o usuário clica no
@@ -164,8 +176,10 @@ function criarItem(solicitacao) {
         <summary>
             <div class="div_item_header">
                 <h4><span class="span_chamado" title="Chamado">#${String(solicitacao.chamado).padStart(4, '0')}</span> ${solicitacao.titulo}</h4>
-                <span class="span_prioridade ${spanPrioridadeClass}" title="Prioridade">${solicitacao.prioridade}</span>
-                <span class="span_estado ${spanEstadoClass}" title="Status">${solicitacao.estadoAtual}</span>
+                <div class="div_item_header_tags">
+                    <span class="span_prioridade ${spanPrioridadeClass}" title="Prioridade">${solicitacao.prioridade}</span>
+                    <span class="span_estado ${spanEstadoClass}" title="Status">${solicitacao.estadoAtual}</span>
+                </div>
                 <div class="div_item_header_setor">
                     <span title="Setor Solicitante">${solicitacao.setorSolicitante}</span>
                     <svg class="svg_arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M598.6 297.4C611.1 309.9 611.1 330.2 598.6 342.7L470.6 470.7C461.4 479.9 447.7 482.6 435.7 477.6C423.7 472.6 416 460.9 416 448L416 384L80 384C53.5 384 32 362.5 32 336L32 304C32 277.5 53.5 256 80 256L416 256L416 192C416 179.1 423.8 167.4 435.8 162.4C447.8 157.4 461.5 160.2 470.7 169.3L598.7 297.3z"/></svg>
@@ -200,3 +214,12 @@ export function exibirSolicitacoes(solicitacoes) {
         preencherLista(criarItem(solicitacao));
     }
 }
+
+// Essa função oculta a barra de filtros por padrão se a largura de tela for
+// igual ou menor a 972px (como definido no mediaQuery
+function esconderFiltro() {
+    barraLateralFiltro.hidden = mediaQuery.matches;
+}
+
+// Imediatamente oculta a barra de filtros caso a tela seja menor
+esconderFiltro();

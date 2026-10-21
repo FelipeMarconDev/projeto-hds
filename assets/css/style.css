@@ -27,6 +27,7 @@
 
     --header_altura: 142px;
     --desktop_largura_max: 1366px;
+    --smartphone_largura_max: 972px;
 }
 
 * {
@@ -41,7 +42,8 @@ body {
     grid-template-rows: auto 1fr auto;
     background-color: var(--cor_clara);
     color: var(--cor_escura);
-    height: 100dvh;
+    min-height: 100dvh;
+    height: auto;
     font-size: 1rem;
 }
 
@@ -50,8 +52,8 @@ header {
     padding: 1rem 0 0.4rem 0;
     height: var(--header_altura);
     position: sticky;
-    top: 0;
-    left: 0;
+    top: 0px;
+    left: 0px;
     z-index: 999;
     border-bottom: 0.4rem solid var(--cor_secundaria_light2);
 }
@@ -128,19 +130,18 @@ form {
 }
 
 main {
-    display: grid;
-    grid-template-columns: 20rem 1fr;
+    display: flex;
+    align-items: flex-start;
     background-color: var(--cor_clara);
     width: 100%;
     max-width: var(--desktop_largura_max);
     justify-self: center;
 }
 
-main.filtro_oculto {
-    grid-template-columns: minmax(0, 1fr);
-}
-
 aside {
+    flex: 0 0 20rem;
+    display: flex;
+    flex-direction: column;
     background-color: var(--cor_primaria_light2);
     padding: 1rem;
     position: sticky;
@@ -148,11 +149,16 @@ aside {
     align-self: start;
 }
 
+aside[hidden] {
+    display: none !important;
+}
+
 aside h3:not(:first-child) {
     margin-top: 1rem;
 }
 
 aside ul {
+    cursor: pointer;
     list-style: none;
     font-size: 1.2rem;
 }
@@ -194,7 +200,30 @@ aside ul li:active {
     border-radius: 0.4rem;
 }
 
+#btn_aplicar_filtro {
+    cursor: pointer;
+    appearance: none;
+    border: none;
+    border-radius: 0.4rem;
+    background-color: var(--cor_primaria_dark2);
+    color: var(--cor_clara);
+    font-size: 1.2rem;
+    padding: 0.4rem 0.8rem;
+    margin-top: 1rem;
+    align-self: flex-end;
+}
+
+#btn_aplicar_filtro:hover {
+    background-color: var(--cor_secundaria_dark2);
+}
+
+#btn_aplicar_filtro:active {
+    background-color: var(--cor_secundaria_dark1);
+}
+
 #area_principal {
+    flex: 1;
+    min-width: 0;
     margin-top: 1rem;
 }
 
@@ -284,12 +313,13 @@ section h2 {
 
 .div_item_header {
     display: grid;
-    grid-template-columns: 1fr auto auto;
+    grid-template-columns: 1fr auto;
     align-items: center;
 }
 
 .div_item_header h4 {
     font-size: 1.2rem;
+    line-height: 1.4;
     margin-bottom: 0.6rem;
 }
 
@@ -364,4 +394,50 @@ footer {
     color: var(--cor_clara);
     text-align: center;
     padding: 1rem 0;
+}
+
+@media (max-width: 972px) {
+    header h1 {
+        text-align: center;
+    }
+
+    main {
+        position: relative;
+    }
+
+    aside {
+        position: fixed;
+        top: var(--header_altura);
+        left: 50%;
+        transform: translateX(-50%);
+        width: min(20rem, calc(100vw - 2rem));
+        max-height: calc(100dvh - var(--header_altura) - 1rem);
+        overflow-y: auto;
+        z-index: 999;
+        box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, 0.6)
+    }
+
+    #nova_solicitacao {
+        min-width: 20rem;
+        width: calc(100vw - 2rem);
+    }
+}
+
+@media (max-width: 600px) {
+    .div_item_header {
+        grid-template-columns: auto;
+        gap: 0.4rem;
+    }
+
+    .div_item_header h4 {
+        margin-bottom: 0.2rem;
+    }
+
+    .div_item_header_tags {
+        margin-bottom: 0.4rem;
+    }
+
+    .div_item_header_setor:first-child {
+        margin-bottom: 0.4rem;
+    }
 }
