@@ -11,10 +11,10 @@ const inputBuscar  = document.querySelector("#input_buscar");
 
 // Aside
 const barraLateralFiltro = document.querySelector("#barra_lateral_filtro");
+const btnLimparFiltro    = document.querySelector("#btn_limpar_filtro");
 const btnAplicarFiltro   = document.querySelector("#btn_aplicar_filtro");
 
 // Main
-const mainArea          = document.querySelector("main");
 const dashboard         = document.querySelector("#dashboard");
 const listaSolicitacoes = document.querySelector("#lista_solicitacoes");
 const novaSolicitacao   = document.querySelector("#nova_solicitacao");
@@ -34,7 +34,7 @@ const mediaQuery = window.matchMedia("(max-width: 972px)");
  * Aguarda algo acontecer para executar uma função específica *
  *************************************************************/
 
-export function configurarEventos(gerenciador, atualizarInterface) {
+export function configurarEventos(gerenciador, atualizarInterface, atualizarDashboard) {
     // Cria evento para ativar e desativar o painel de Dashboard quando o
     // usuário clica no botão
     btnDashboard.addEventListener("click", () => {
@@ -49,10 +49,6 @@ export function configurarEventos(gerenciador, atualizarInterface) {
 
     // Quando a tela fica menor que o mediaQuery, esconde o filtro
     mediaQuery.addEventListener("change", esconderFiltro);
-
-    btnAplicarFiltro.addEventListener("click", () => {
-        barraLateralFiltro.hidden = (mediaQuery.matches) ? true : false;
-    });
 
     // Cria evento para abrir o painel de Nova Solicitação quando o usuário clica no
     // botão de +, e também fecha a janela se clicar em qualquer lugar fora do painel
@@ -85,7 +81,65 @@ export function configurarEventos(gerenciador, atualizarInterface) {
         gerenciador.adicionar(dados);
 
         // Atualiza a interface após cada nova inserção
+        atualizarDashboard();
         atualizarInterface();
+    });
+}
+
+// Remove a classe para indicar que o item não está mais ativo
+function limparFiltros(categorias) {
+    for (const ul of Object.values(categorias)) {
+        ul.querySelectorAll("li").forEach(li => {
+            li.classList.toggle("filtro_ativo", false);
+        });
+    }
+}
+
+export function configurarFiltros(atualizarInterface) {
+    // Cria um objeto com chave e elemento de cada categoria de filtro
+    const categorias = {
+        setor:      document.querySelector("#aside_lista_setores"),
+        prioridade: document.querySelector("#aside_lista_prioridades"),
+        estado:     document.querySelector("#aside_lista_status"),
+    };
+
+    // Para cada item de cada categoria, cria um eventListener que aguarda o item
+    // ser clicado para atribuir a ele a classe de .filtro_ativo
+    for (const ul of Object.values(categorias)) {
+        ul.querySelectorAll("li").forEach(li => {
+            li.addEventListener("click", () => {
+                li.classList.toggle("filtro_ativo");
+            });
+        });
+    }
+
+    // Quando o botão de Limpar é clicado, remove as classes de .filtro_ativo
+    // Carrega a lista de solicitações com todos os items novamente
+    btnLimparFiltro.addEventListener("click", () => {
+        limparFiltros(categorias);
+
+        barraLateralFiltro.hidden = (mediaQuery.matches) ? true : false;
+        atualizarInterface();
+    });
+
+    // Quando o botão de Aplicar é clicado, gera uma lista de filtros, separado
+    // por categorias, e em cada categoria adiciona apenas os itens que tem a
+    // classe .filtro_ativo
+    btnAplicarFiltro.addEventListener("click", () => {
+        const filtros = {};
+
+        for ( const [categoria, ul] of Object.entries(categorias)) {
+            filtros[categoria] = [
+                ...ul.querySelectorAll("li.filtro_ativo")
+            ].map(li => li.textContent);
+        }
+
+        // Recebe uma função do main() atualizarInterface() como callback
+        // function, com as condicionais dos campos de Solicitação, essa função
+        // então recebe a lista de filtros separados por categoria para validar
+        // se a Solicitação deve ser exibida
+        barraLateralFiltro.hidden = (mediaQuery.matches) ? true : false;
+        atualizarInterface(filtros);
     });
 }
 
@@ -95,32 +149,42 @@ export function configurarEventos(gerenciador, atualizarInterface) {
  ***********************/
 
 function preencherFiltros(setores, prioridades, estados) {
+    const filtroSetores     = barraLateralFiltro.querySelector("#aside_lista_setores");
+    const filtroPrioridades = barraLateralFiltro.querySelector("#aside_lista_prioridades");
+    const filtroStatus      = barraLateralFiltro.querySelector("#aside_lista_status");
+
     for (const setor of setores) {
         const li = document.createElement("li");
         li.textContent = setor;
-        barraLateralFiltro.querySelector("#aside_lista_setores").append(li);
+        li.dataset.setor = setor;
+        filtroSetores.append(li);
     }
 
     for (const prioridade of prioridades) {
         const li = document.createElement("li");
         li.textContent = prioridade;
-        barraLateralFiltro.querySelector("#aside_lista_prioridades").append(li);
+        li.dataset.prioridade = prioridade;
+        filtroPrioridades.append(li);
     }
 
     for (const estado of estados) {
         const li = document.createElement("li");
         li.textContent = estado;
-        barraLateralFiltro.querySelector("#aside_lista_status").append(li);
+        li.dataset.estado = estado;
+        filtroStatus.append(li);
     }
 }
 
-function preencherFormSelects(setores, prioridades, estados) {
+function preencherFormSelects(setores, prioridades, estados) {}
 
-}
-
+// Primeira função executada pelo main(), carrega os textos do menu de filtros e
+// formulário, oculta a barra de filtro caso a tela obedeça ao media-query
 export function exibirDadosDinamicos(setores, prioridades, estados) {
     preencherFiltros(setores, prioridades, estados);
     preencherFormSelects(setores, prioridades, estados);
+
+    // Imediatamente oculta a barra de filtros caso a tela seja menor
+    esconderFiltro();
 }
 
 // Recebe o número de solicitações em aberto e exibe no card do Dashboard
@@ -200,26 +264,32 @@ function criarItem(solicitacao) {
     return item;
 }
 
-// Adiciona o item <li> criado, na <ul> do HTML
-function preencherLista(item) {
-    listaSolicitacoes.appendChild(item);
+function listaVazia() {
+    const item = document.createElement("li");
+    item.classList.add("lista_vazia");
+    item.textContent = "Nenhum item para ser exibido.";
+
+    return item;
 }
 
 export function exibirSolicitacoes(solicitacoes) {
-    // Executa um loop pelo array, e para cada elemento (que é um objeto),
-    // executa a função de preencherLista, para essa função o loop passa como
-    // argumento outra função criarItem, e essa função recebe como argumento o
-    // objeto que está temporariamente nomeado como solicitacao
+    // Remove todos os items da lista de solicitações
+    listaSolicitacoes.replaceChildren();
+
+    if (!solicitacoes.length) {
+        listaSolicitacoes.appendChild(listaVazia());
+    }
+
+    // Executa um loop pelo array de objetos de solicitações, e para cada elemento,
+    // criar um novo item que será adicionado a lista de solicitações
     for (const solicitacao of solicitacoes) {
-        preencherLista(criarItem(solicitacao));
+        // Adiciona o item <li> criado, na <ul> do HTML
+        listaSolicitacoes.appendChild(criarItem(solicitacao));
     }
 }
 
 // Essa função oculta a barra de filtros por padrão se a largura de tela for
-// igual ou menor a 972px (como definido no mediaQuery
+// igual ou menor a 972px (como definido no mediaQuery)
 function esconderFiltro() {
     barraLateralFiltro.hidden = mediaQuery.matches;
 }
-
-// Imediatamente oculta a barra de filtros caso a tela seja menor
-esconderFiltro();

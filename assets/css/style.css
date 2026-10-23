@@ -168,12 +168,18 @@ aside ul li {
     padding: 0.4rem 0.8rem;
 }
 
-aside ul li:hover {
-    background-color: var(--cor_secundaria);
-    color: var(--cor_clara);
+@media (hover: hover) {
+    aside ul li:hover {
+        background-color: var(--cor_secundaria) !important;
+        color: var(--cor_clara);
+    }
 }
 
 aside ul li:active {
+    background-color: var(--cor_secundaria_light1);
+}
+
+aside ul li.filtro_ativo {
     background-color: var(--cor_secundaria_light1);
 }
 
@@ -200,17 +206,39 @@ aside ul li:active {
     border-radius: 0.4rem;
 }
 
-#btn_aplicar_filtro {
+#aside_filtro_botoes {
+    display: flex;
+    justify-content: flex-end;
+    align-self: flex-end;
+    margin-top: 1rem;
+}
+
+aside button {
     cursor: pointer;
     appearance: none;
     border: none;
     border-radius: 0.4rem;
-    background-color: var(--cor_primaria_dark2);
-    color: var(--cor_clara);
     font-size: 1.2rem;
     padding: 0.4rem 0.8rem;
-    margin-top: 1rem;
-    align-self: flex-end;
+}
+
+#btn_limpar_filtro {
+    background-color: var(--cor_clara);
+    color: var(--cor_escura);
+    margin-right: 0.4rem;
+}
+
+#btn_limpar_filtro:hover {
+    background-color: var(--cor_secundaria_light2);
+}
+
+#btn_limpar_filtro:active {
+    background-color: var(--cor_secundaria_light1);
+}
+
+#btn_aplicar_filtro {
+    background-color: var(--cor_primaria_dark2);
+    color: var(--cor_clara);
 }
 
 #btn_aplicar_filtro:hover {
@@ -294,6 +322,11 @@ section h2 {
     padding: 0.6rem;
     border: 1px solid var(--cor_primaria_dark1);
     border-radius: 0.4rem;
+}
+
+#lista_solicitacoes li.lista_vazia {
+    border: none;
+    text-align: center;
 }
 
 #lista_solicitacoes li:not(:last-child) {
@@ -414,12 +447,17 @@ footer {
         max-height: calc(100dvh - var(--header_altura) - 1rem);
         overflow-y: auto;
         z-index: 999;
-        box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, 0.6)
+        box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, 0.6);
     }
 
     #nova_solicitacao {
         min-width: 20rem;
-        width: calc(100vw - 2rem);
+        width: auto;
+        top: var(--header_altura);
+        left: 50%;
+        transform: translateX(-50%);
+        max-height: calc(100dvh - var(--header_altura) - 1rem);
+        overflow-y: auto;
     }
 }
 
