@@ -102,10 +102,6 @@ nav {
     fill: currentColor;
 }
 
-.btn_nav:hover {
-    background-color: var(--cor_primaria_dark1);
-}
-
 form {
     display: inline-block;
     flex: 1;
@@ -166,13 +162,6 @@ aside ul {
 aside ul li {
     background-color: var(--cor_primaria_light1);
     padding: 0.4rem 0.8rem;
-}
-
-@media (hover: hover) {
-    aside ul li:hover {
-        background-color: var(--cor_secundaria) !important;
-        color: var(--cor_clara);
-    }
 }
 
 aside ul li:active {
@@ -427,6 +416,21 @@ footer {
     color: var(--cor_clara);
     text-align: center;
     padding: 1rem 0;
+}
+
+/* Esse media-query serve para remover o efeito de hover em telas touchscreen
+ * que permanecem ativas após o usuário clicar em cima do elemento, ele faz com
+ * que os efeitos hover definidos aqui sejam aplicados apenas a aparelhos que de
+ * fato permitem passar um apontador por cima do elemento (eg. mouse ou touchpad) */
+@media (hover: hover) {
+    .btn_nav:hover {
+        background-color: var(--cor_primaria_dark1);
+    }
+
+    aside ul li:hover {
+        background-color: var(--cor_secundaria) !important;
+        color: var(--cor_clara);
+    }
 }
 
 @media (max-width: 972px) {
