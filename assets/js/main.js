@@ -39,9 +39,18 @@ async function main() {
         const _ = gerenciador.adicionar(elem);
     }
 
-    function atualizarInterface(filtros = {}) {
+    function atualizarSolicitacoes(filtros = {}, busca = "") {
         const todasSolicitacoes = gerenciador.listar();
         let solicitacoes = todasSolicitacoes;
+
+        if (busca) {
+            solicitacoes = solicitacoes.filter(s =>
+                // Forma uma String com #Chamado + Título + Nome do Responsável + Descrição da Solicitação
+                ("#" + String(s.chamado).padStart(4, '0') + s.titulo + s.responsavel + s.descricao)
+                    .toLowerCase()
+                    .includes(busca)    // E confere se a busca está incluída nesta String temporária
+            );
+        }
 
         if (filtros.setor?.length) {
             solicitacoes = solicitacoes.filter(s =>

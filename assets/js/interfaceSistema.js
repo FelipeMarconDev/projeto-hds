@@ -6,8 +6,7 @@
 const btnCriar     = document.querySelector("#btn_criar");
 const btnDashboard = document.querySelector("#btn_dashboard");
 const btnFiltrar   = document.querySelector("#btn_filtrar");
-const btnBuscar    = document.querySelector("#btn_buscar");
-const inputBuscar  = document.querySelector("#input_buscar");
+const formBuscar   = document.querySelector("#form_buscar");
 
 // Aside
 const barraLateralFiltro = document.querySelector("#barra_lateral_filtro");
@@ -69,9 +68,21 @@ export function configurarEventos(gerenciador, atualizarSolicitacoes, atualizarD
         }
     });
 
+    formBuscar.addEventListener("submit", event => {
+        event.preventDefault();
+
+        const input = formBuscar.querySelector("input");
+        const busca = input.value.trim().toLowerCase();
+
+        input.value = "";
+        btnLimparFiltro.click();
+
+        atualizarSolicitacoes({}, busca);
+    });
+
     // Evento que acontece quando o formulário é enviado, previne a execução
     // padrão e coleta os dados para adicionar ao gerenciador
-    formulario.addEventListener("submit", (event) => {
+    formulario.addEventListener("submit", event => {
         // Previne que o botão envie para servidor, causando erro HTTP
         event.preventDefault();
 
