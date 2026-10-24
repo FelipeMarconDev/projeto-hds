@@ -1,6 +1,5 @@
 export default class Solicitacao {
     static totalChamados = 0;
-    chamado;
 
     constructor({
         titulo,
