@@ -90,7 +90,7 @@ export function configurarEventos(gerenciador, atualizarInterface, atualizarDash
 function limparFiltros(categorias) {
     for (const ul of Object.values(categorias)) {
         ul.querySelectorAll("li").forEach(li => {
-            li.classList.toggle("filtro_ativo", false);
+            li.classList.remove("filtro_ativo");
         });
     }
 }
@@ -131,7 +131,7 @@ export function configurarFiltros(atualizarInterface) {
         for ( const [categoria, ul] of Object.entries(categorias)) {
             filtros[categoria] = [
                 ...ul.querySelectorAll("li.filtro_ativo")
-            ].map(li => li.textContent);
+            ].map(li => li.dataset.filtro);
         }
 
         // Recebe uma função do main() atualizarInterface() como callback
@@ -156,21 +156,21 @@ function preencherFiltros(setores, prioridades, estados) {
     for (const setor of setores) {
         const li = document.createElement("li");
         li.textContent = setor;
-        li.dataset.setor = setor;
+        li.dataset.filtro = setor;
         filtroSetores.append(li);
     }
 
     for (const prioridade of prioridades) {
         const li = document.createElement("li");
         li.textContent = prioridade;
-        li.dataset.prioridade = prioridade;
+        li.dataset.filtro = prioridade;
         filtroPrioridades.append(li);
     }
 
     for (const estado of estados) {
         const li = document.createElement("li");
         li.textContent = estado;
-        li.dataset.estado = estado;
+        li.dataset.filtro = estado;
         filtroStatus.append(li);
     }
 }
