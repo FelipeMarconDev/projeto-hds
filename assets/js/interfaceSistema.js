@@ -34,7 +34,7 @@ const mediaQuery = window.matchMedia("(max-width: 972px)");
  * Aguarda algo acontecer para executar uma função específica *
  *************************************************************/
 
-export function configurarEventos(gerenciador, atualizarInterface, atualizarDashboard) {
+export function configurarEventos(gerenciador, atualizarSolicitacoes, atualizarDashboard) {
     // Cria evento para ativar e desativar o painel de Dashboard quando o
     // usuário clica no botão
     btnDashboard.addEventListener("click", () => {
@@ -82,20 +82,11 @@ export function configurarEventos(gerenciador, atualizarInterface, atualizarDash
 
         // Atualiza a interface após cada nova inserção
         atualizarDashboard();
-        atualizarInterface();
+        atualizarSolicitacoes();
     });
 }
 
-// Remove a classe para indicar que o item não está mais ativo
-function limparFiltros(categorias) {
-    for (const ul of Object.values(categorias)) {
-        ul.querySelectorAll("li").forEach(li => {
-            li.classList.remove("filtro_ativo");
-        });
-    }
-}
-
-export function configurarFiltros(atualizarInterface) {
+export function configurarFiltros(atualizarSolicitacoes) {
     // Cria um objeto com chave e elemento de cada categoria de filtro
     const categorias = {
         setor:      document.querySelector("#aside_lista_setores"),
@@ -119,7 +110,7 @@ export function configurarFiltros(atualizarInterface) {
         limparFiltros(categorias);
 
         barraLateralFiltro.hidden = (mediaQuery.matches) ? true : false;
-        atualizarInterface();
+        atualizarSolicitacoes();
     });
 
     // Quando o botão de Aplicar é clicado, gera uma lista de filtros, separado
@@ -128,18 +119,18 @@ export function configurarFiltros(atualizarInterface) {
     btnAplicarFiltro.addEventListener("click", () => {
         const filtros = {};
 
-        for ( const [categoria, ul] of Object.entries(categorias)) {
+        for (const [categoria, ul] of Object.entries(categorias)) {
             filtros[categoria] = [
                 ...ul.querySelectorAll("li.filtro_ativo")
             ].map(li => li.dataset.filtro);
         }
 
-        // Recebe uma função do main() atualizarInterface() como callback
+        // Recebe uma função do main() atualizarSolicitacoes() como callback
         // function, com as condicionais dos campos de Solicitação, essa função
         // então recebe a lista de filtros separados por categoria para validar
         // se a Solicitação deve ser exibida
         barraLateralFiltro.hidden = (mediaQuery.matches) ? true : false;
-        atualizarInterface(filtros);
+        atualizarSolicitacoes(filtros);
     });
 }
 
@@ -292,4 +283,13 @@ export function exibirSolicitacoes(solicitacoes) {
 // igual ou menor a 972px (como definido no mediaQuery)
 function esconderFiltro() {
     barraLateralFiltro.hidden = mediaQuery.matches;
+}
+
+// Remove a classe para indicar que o item não está mais ativo
+function limparFiltros(categorias) {
+    for (const ul of Object.values(categorias)) {
+        ul.querySelectorAll("li").forEach(li => {
+            li.classList.remove("filtro_ativo");
+        });
+    }
 }

@@ -82,13 +82,13 @@ async function main() {
     }
 
     // Carrega todos os eventListeners
-    configurarEventos(gerenciador, atualizarInterface, atualizarDashboard);
-    configurarFiltros(atualizarInterface);
+    configurarEventos(gerenciador, atualizarSolicitacoes, atualizarDashboard);
+    configurarFiltros(atualizarSolicitacoes);
 
     // Executa a função acima (pega solicitações, atualiza número em aberto e
     // dados dos gráficos). Essa função também é executada pelos eventListeners.
     atualizarDashboard();
-    atualizarInterface();
+    atualizarSolicitacoes();
 }
 
 // Executa a função principal do app
