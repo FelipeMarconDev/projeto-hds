@@ -8,16 +8,16 @@ const btnDashboard = document.querySelector("#btn_dashboard");
 const btnFiltrar   = document.querySelector("#btn_filtrar");
 const formBuscar   = document.querySelector("#form_buscar");
 
-// Aside
-const barraLateralFiltro = document.querySelector("#barra_lateral_filtro");
-const btnLimparFiltro    = document.querySelector("#btn_limpar_filtro");
-const btnAplicarFiltro   = document.querySelector("#btn_aplicar_filtro");
-
 // Main
 const dashboard         = document.querySelector("#dashboard");
 const listaSolicitacoes = document.querySelector("#lista_solicitacoes");
 const novaSolicitacao   = document.querySelector("#nova_solicitacao");
 const formulario        = document.querySelector("#form_nova_solicitacao");
+
+// Aside
+const barraLateralFiltro = document.querySelector("#barra_lateral_filtro");
+const btnLimparFiltro    = document.querySelector("#btn_limpar_filtro");
+const btnAplicarFiltro   = document.querySelector("#btn_aplicar_filtro");
 
 // Dashboard
 const numEmAberto   = document.querySelector("#num_em_aberto");
@@ -69,6 +69,9 @@ export function configurarEventos(gerenciador, atualizarSolicitacoes, atualizarD
         }
     });
 
+    // Quando o usuário preenche o campo de busca e envia, o sistema coleta o texto,
+    // remove espaços em branco, limpa o campo, define o placeholder como o
+    // conteúdo e envia para main() selecionar apenas as Solicitações compatíveis
     formBuscar.addEventListener("submit", event => {
         event.preventDefault();
 

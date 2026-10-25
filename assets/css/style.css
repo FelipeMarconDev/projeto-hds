@@ -249,14 +249,18 @@ aside button {
     margin-top: 1rem;
 }
 
-section {
+#area_principal section {
     margin: 0 1rem 1rem;
     padding: 0.6rem 0.6rem;
     border: 3px solid var(--cor_primaria_dark2);
     border-radius: 0.6rem;
 }
 
-section h2 {
+#area_principal > section {
+    box-shadow: inset 0 0.4rem 0.8rem white;
+}
+
+#area_principal section h2 {
     margin-bottom: 1.2rem;
 }
 
