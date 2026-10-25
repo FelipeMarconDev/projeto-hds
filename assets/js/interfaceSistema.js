@@ -16,6 +16,11 @@ const formulario        = document.querySelector("#form_nova_solicitacao");
 
 // Aside
 const barraLateralFiltro = document.querySelector("#barra_lateral_filtro");
+const categoriasFiltro = {
+    setor:      document.querySelector("#aside_lista_setores"),
+    prioridade: document.querySelector("#aside_lista_prioridades"),
+    estado:     document.querySelector("#aside_lista_status"),
+};
 const btnLimparFiltro    = document.querySelector("#btn_limpar_filtro");
 const btnAplicarFiltro   = document.querySelector("#btn_aplicar_filtro");
 
@@ -50,25 +55,6 @@ export function configurarEventos(gerenciador, atualizarSolicitacoes, atualizarD
     // Quando a tela fica menor que o mediaQuery, esconde o filtro
     mediaQuery.addEventListener("change", esconderFiltro);
 
-    // Cria evento para abrir o painel de Nova Solicitação quando o usuário clica no
-    // botão de +, e também fecha a janela se clicar em qualquer lugar fora do painel
-    document.addEventListener("click", event => {
-        // Se o botão for o alvo clicado
-        if (btnCriar.contains(event.target)) {
-            novaSolicitacao.hidden = false;
-        // Se o painel NÃO for o alvo clicado
-        } else if (!novaSolicitacao.contains(event.target)) {
-            novaSolicitacao.hidden = true;
-        }
-    });
-
-    // Cria evento para fechar pop-up de Nova Solicitação quando o usuário aperta Esc
-    document.addEventListener("keydown", event => {
-        if (event.key === "Escape") {
-            novaSolicitacao.hidden = true;
-        }
-    });
-
     // Quando o usuário preenche o campo de busca e envia, o sistema coleta o texto,
     // remove espaços em branco, limpa o campo, define o placeholder como o
     // conteúdo e envia para main() selecionar apenas as Solicitações compatíveis
@@ -80,9 +66,28 @@ export function configurarEventos(gerenciador, atualizarSolicitacoes, atualizarD
 
         input.value = "";
         input.placeholder = (busca) ? busca : "Buscar";
-        btnLimparFiltro.click();
+        limparFiltros(categoriasFiltro);
 
         atualizarSolicitacoes({}, busca.toLowerCase());
+    });
+
+    // Cria evento para abrir o painel de Nova Solicitação quando o usuário clica no
+    // botão de +, e também fecha a janela se clicar em qualquer lugar fora do painel
+    document.addEventListener("click", event => {
+        // Se o botão for o alvo clicado e o painel está oculto
+        if (btnCriar.contains(event.target) && novaSolicitacao.hidden) {
+            mostrarNovaSolicitacao(true);
+        // Se o painel NÃO for o alvo clicado
+        } else if (!novaSolicitacao.contains(event.target)) {
+            mostrarNovaSolicitacao(false);
+        }
+    });
+
+    // Cria evento para fechar pop-up de Nova Solicitação quando o usuário aperta Esc
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape") {
+            mostrarNovaSolicitacao(false);
+        }
     });
 
     // Evento que acontece quando o formulário é enviado, previne a execução
@@ -103,16 +108,9 @@ export function configurarEventos(gerenciador, atualizarSolicitacoes, atualizarD
 }
 
 export function configurarFiltros(atualizarSolicitacoes) {
-    // Cria um objeto com chave e elemento de cada categoria de filtro
-    const categorias = {
-        setor:      document.querySelector("#aside_lista_setores"),
-        prioridade: document.querySelector("#aside_lista_prioridades"),
-        estado:     document.querySelector("#aside_lista_status"),
-    };
-
     // Para cada item de cada categoria, cria um eventListener que aguarda o item
     // ser clicado para atribuir a ele a classe de .filtro_ativo
-    for (const ul of Object.values(categorias)) {
+    for (const ul of Object.values(categoriasFiltro)) {
         ul.querySelectorAll("li").forEach(li => {
             li.addEventListener("click", () => {
                 li.classList.toggle("filtro_ativo");
@@ -123,7 +121,7 @@ export function configurarFiltros(atualizarSolicitacoes) {
     // Quando o botão de Limpar é clicado, remove as classes de .filtro_ativo
     // Carrega a lista de solicitações com todos os items novamente
     btnLimparFiltro.addEventListener("click", () => {
-        limparFiltros(categorias);
+        limparFiltros(categoriasFiltro);
 
         esconderFiltro();
         atualizarSolicitacoes();
@@ -135,17 +133,18 @@ export function configurarFiltros(atualizarSolicitacoes) {
     btnAplicarFiltro.addEventListener("click", () => {
         const filtros = {};
 
-        for (const [categoria, ul] of Object.entries(categorias)) {
+        for (const [categoria, ul] of Object.entries(categoriasFiltro)) {
             filtros[categoria] = [
                 ...ul.querySelectorAll("li.filtro_ativo")
             ].map(li => li.dataset.filtro);
         }
 
+        esconderFiltro();
+
         // Recebe uma função do main() atualizarSolicitacoes() como callback
         // function, com as condicionais dos campos de Solicitação, essa função
         // então recebe a lista de filtros separados por categoria para validar
         // se a Solicitação deve ser exibida
-        esconderFiltro();
         atualizarSolicitacoes(filtros);
     });
 }
@@ -156,9 +155,9 @@ export function configurarFiltros(atualizarSolicitacoes) {
  ***********************/
 
 function preencherFiltros(setores, prioridades, estados) {
-    const filtroSetores     = barraLateralFiltro.querySelector("#aside_lista_setores");
-    const filtroPrioridades = barraLateralFiltro.querySelector("#aside_lista_prioridades");
-    const filtroStatus      = barraLateralFiltro.querySelector("#aside_lista_status");
+    const filtroSetores     = categoriasFiltro.setor;
+    const filtroPrioridades = categoriasFiltro.prioridade;
+    const filtroEstados     = categoriasFiltro.estado;
 
     for (const setor of setores) {
         const li = document.createElement("li");
@@ -178,7 +177,7 @@ function preencherFiltros(setores, prioridades, estados) {
         const li = document.createElement("li");
         li.textContent = estado;
         li.dataset.filtro = estado;
-        filtroStatus.append(li);
+        filtroEstados.append(li);
     }
 }
 
@@ -294,6 +293,11 @@ export function exibirSolicitacoes(solicitacoes) {
     if (!solicitacoes.length) {
         listaSolicitacoes.appendChild(listaVazia());
     }
+}
+
+function mostrarNovaSolicitacao(mostrar) {
+    novaSolicitacao.hidden = !mostrar;
+    btnCriar.classList.toggle("btn_nav_ativo", !novaSolicitacao.hidden);
 }
 
 // Essa função oculta a barra de filtros por padrão se a largura de tela for

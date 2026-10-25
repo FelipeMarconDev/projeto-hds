@@ -54,7 +54,7 @@ header {
     position: sticky;
     top: 0px;
     left: 0px;
-    z-index: 999;
+    z-index: 2;
     border-bottom: 0.4rem solid var(--cor_secundaria_light2);
 }
 
@@ -464,18 +464,19 @@ footer {
         width: min(20rem, calc(100vw - 2rem));
         max-height: calc(100dvh - var(--header_altura) - 1rem);
         overflow-y: auto;
-        z-index: 999;
+        z-index: 1;
         box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, 0.6);
     }
 
     #nova_solicitacao {
-        min-width: 20rem;
-        width: auto;
         top: var(--header_altura);
         left: 50%;
         transform: translateX(-50%);
+        min-width: 20rem;
+        width: auto;
         max-height: calc(100dvh - var(--header_altura) - 1rem);
         overflow-y: auto;
+        z-index: 3;
     }
 }
 
