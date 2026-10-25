@@ -111,6 +111,36 @@ nav {
     fill: currentColor;
 }
 
+.btn_filtrar_outline {
+    position: relative;
+}
+
+.btn_filtrar_outline::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: -4px;
+    border-radius: inherit;
+    padding: 3px;
+    background: conic-gradient(
+        var(--cor_secundaria_light1),
+        var(--cor_clara),
+        var(--cor_secundaria_light1)
+    );
+    animation: rotate-gradient 1s linear infinite;
+    /* Cria uma mascara no formato de um anel */
+    -webkit-mask: linear-gradient(#fff 0 0) content-box,
+                  linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+}
+
+@keyframes rotate-gradient {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 #form_buscar {
     display: inline-block;
     flex: 1;

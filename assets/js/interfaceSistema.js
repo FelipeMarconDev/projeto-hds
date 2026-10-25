@@ -139,6 +139,7 @@ export function configurarFiltros(atualizarSolicitacoes) {
             ].map(li => li.dataset.filtro);
         }
 
+        outlineFiltroAtivo(Boolean(filtros));
         esconderFiltro();
 
         // Recebe uma função do main() atualizarSolicitacoes() como callback
@@ -307,6 +308,10 @@ function esconderFiltro(condicao = mediaQuery.matches) {
     btnFiltrar.classList.toggle("btn_nav_ativo", !condicao);
 }
 
+function outlineFiltroAtivo(condicao = false) {
+    btnFiltrar.classList.toggle("btn_filtrar_outline", condicao);
+}
+
 // Remove a classe para indicar que o item não está mais ativo
 function limparFiltros(categorias) {
     for (const ul of Object.values(categorias)) {
@@ -314,4 +319,6 @@ function limparFiltros(categorias) {
             li.classList.remove("filtro_ativo");
         });
     }
+
+    outlineFiltroAtivo();
 }
