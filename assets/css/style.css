@@ -87,6 +87,11 @@ nav {
     padding: 1rem 1rem 0.4rem;
 }
 
+:focus {
+    outline: 3px solid var(--cor_secundaria_light1);
+    outline-offset: 1px;
+}
+
 .btn_nav {
     background-color: var(--cor_primaria_dark2);
     color: var(--cor_clara);
@@ -98,11 +103,15 @@ nav {
     cursor: pointer;
 }
 
+.btn_nav:active, .btn_nav_ativo {
+    background-color: var(--cor_primaria_dark1) !important;
+}
+
 .btn_nav svg {
     fill: currentColor;
 }
 
-form {
+#form_buscar {
     display: inline-block;
     flex: 1;
     position: relative;
@@ -164,11 +173,7 @@ aside ul li {
     padding: 0.4rem 0.8rem;
 }
 
-aside ul li:active {
-    background-color: var(--cor_secundaria_light1);
-}
-
-aside ul li.filtro_ativo {
+aside ul li:active, aside ul li.filtro_ativo {
     background-color: var(--cor_secundaria_light1);
 }
 
@@ -299,12 +304,17 @@ section h2 {
     min-height: 480px;
     background-color: var(--cor_clara);
     border: 1px solid var(--cor_escura);
-    box-shadow: 0 0 1px 5000px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 0 1px 5000px rgba(0, 0, 0, 0.6) !important;
 }
 
-#lista_solicitacoes li, summary {
+#lista_solicitacoes li, #lista_solicitacoes summary {
     list-style: none;
     cursor: pointer;
+}
+
+#lista_solicitacoes summary:focus {
+    outline: 3px solid var(--cor_secundaria_light2);
+    outline-offset: 0.4rem;
 }
 
 #lista_solicitacoes li {
@@ -424,7 +434,7 @@ footer {
  * fato permitem passar um apontador por cima do elemento (eg. mouse ou touchpad) */
 @media (hover: hover) {
     .btn_nav:hover {
-        background-color: var(--cor_primaria_dark1);
+        background-color: var(--cor_primaria) !important;
     }
 
     aside ul li:hover {

@@ -38,12 +38,13 @@ export function configurarEventos(gerenciador, atualizarSolicitacoes, atualizarD
     // usuário clica no botão
     btnDashboard.addEventListener("click", () => {
         dashboard.hidden = !dashboard.hidden;
+        btnDashboard.classList.toggle("btn_nav_ativo", !dashboard.hidden);
     });
 
     // Quando clica no botão de filtro, oculta a barra lateral de filtros, e
     // adiciona uma classe ao main para ocupar todo o espaço disponível
     btnFiltrar.addEventListener("click", () => {
-        barraLateralFiltro.hidden = !barraLateralFiltro.hidden;
+        esconderFiltro(!barraLateralFiltro.hidden);
     });
 
     // Quando a tela fica menor que o mediaQuery, esconde o filtro
@@ -279,22 +280,24 @@ export function exibirSolicitacoes(solicitacoes) {
     // Remove todos os items da lista de solicitações
     listaSolicitacoes.replaceChildren();
 
-    if (!solicitacoes.length) {
-        listaSolicitacoes.appendChild(listaVazia());
-    }
-
     // Executa um loop pelo array de objetos de solicitações, e para cada elemento,
     // criar um novo item que será adicionado a lista de solicitações
     for (const solicitacao of solicitacoes) {
         // Adiciona o item <li> criado, na <ul> do HTML
         listaSolicitacoes.appendChild(criarItem(solicitacao));
     }
+
+    // Se não houver nenhuma Solicitação para ser exibida, mostra lista vazia
+    if (!solicitacoes.length) {
+        listaSolicitacoes.appendChild(listaVazia());
+    }
 }
 
 // Essa função oculta a barra de filtros por padrão se a largura de tela for
 // igual ou menor a 972px (como definido no mediaQuery)
-function esconderFiltro() {
-    barraLateralFiltro.hidden = mediaQuery.matches;
+function esconderFiltro(condicao = mediaQuery.matches) {
+    barraLateralFiltro.hidden = condicao;
+    btnFiltrar.classList.toggle("btn_nav_ativo", !condicao);
 }
 
 // Remove a classe para indicar que o item não está mais ativo
