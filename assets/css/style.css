@@ -87,7 +87,7 @@ nav {
     padding: 1rem 1rem 0.4rem;
 }
 
-:focus {
+:focus-visible {
     outline: 3px solid var(--cor_secundaria_light1);
     outline-offset: 1px;
 }
@@ -316,7 +316,7 @@ aside button {
     cursor: pointer;
 }
 
-#lista_solicitacoes summary:focus {
+#lista_solicitacoes summary:focus-visible {
     outline: 3px solid var(--cor_secundaria_light2);
     outline-offset: 0.4rem;
 }
