@@ -120,7 +120,7 @@ export function configurarFiltros(atualizarSolicitacoes) {
     btnLimparFiltro.addEventListener("click", () => {
         limparFiltros(categorias);
 
-        barraLateralFiltro.hidden = (mediaQuery.matches) ? true : false;
+        esconderFiltro();
         atualizarSolicitacoes();
     });
 
@@ -140,7 +140,7 @@ export function configurarFiltros(atualizarSolicitacoes) {
         // function, com as condicionais dos campos de Solicitação, essa função
         // então recebe a lista de filtros separados por categoria para validar
         // se a Solicitação deve ser exibida
-        barraLateralFiltro.hidden = (mediaQuery.matches) ? true : false;
+        esconderFiltro();
         atualizarSolicitacoes(filtros);
     });
 }
@@ -182,11 +182,11 @@ function preencherFormSelects(setores, prioridades, estados) {}
 // Primeira função executada pelo main(), carrega os textos do menu de filtros e
 // formulário, oculta a barra de filtro caso a tela obedeça ao media-query
 export function exibirDadosDinamicos(setores, prioridades, estados) {
-    preencherFiltros(setores, prioridades, estados);
-    preencherFormSelects(setores, prioridades, estados);
-
     // Imediatamente oculta a barra de filtros caso a tela seja menor
     esconderFiltro();
+
+    preencherFiltros(setores, prioridades, estados);
+    preencherFormSelects(setores, prioridades, estados);
 }
 
 // Recebe o número de solicitações em aberto e exibe no card do Dashboard
