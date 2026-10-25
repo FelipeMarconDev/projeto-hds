@@ -72,12 +72,13 @@ export function configurarEventos(gerenciador, atualizarSolicitacoes, atualizarD
         event.preventDefault();
 
         const input = formBuscar.querySelector("input");
-        const busca = input.value.trim().toLowerCase();
+        const busca = input.value.trim();
 
         input.value = "";
+        input.placeholder = (busca) ? busca : "Buscar";
         btnLimparFiltro.click();
 
-        atualizarSolicitacoes({}, busca);
+        atualizarSolicitacoes({}, busca.toLowerCase());
     });
 
     // Evento que acontece quando o formulário é enviado, previne a execução
