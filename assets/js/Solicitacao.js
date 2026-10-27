@@ -1,3 +1,5 @@
+import DadosSistema from "./DadosSistema.js"
+
 export default class Solicitacao {
     static totalChamados = 0;
 
@@ -6,8 +8,8 @@ export default class Solicitacao {
         responsavel,
         setorSolicitante,
         setorRequisitado,
-        estadoAtual = "Aberto",
-        prioridade = "Baixa",
+        estadoAtual = DadosSistema.estados[0],
+        prioridade = DadosSistema.prioridades[0],
         descricao = "Não informado.",
     }) {
         this.chamado = ++Solicitacao.totalChamados;
@@ -18,5 +20,14 @@ export default class Solicitacao {
         this.estadoAtual = estadoAtual;
         this.prioridade = prioridade;
         this.descricao = descricao;
+    }
+
+    avancarEstado() {
+        if (this.estadoAtual === DadosSistema.estados[0])
+            this.estadoAtual = DadosSistema.estados[1];
+        else if (this.estadoAtual === DadosSistema.estados[1])
+            this.estadoAtual = DadosSistema.estados[2];
+
+        return this.estadoAtual;
     }
 }
