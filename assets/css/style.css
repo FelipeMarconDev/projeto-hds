@@ -154,7 +154,6 @@ nav {
     border-radius: 2rem;
     padding-left: 1rem;
     font-size: 1rem;
-    box-shadow: 
 }
 
 #form_buscar button {
@@ -527,4 +526,135 @@ footer {
     .div_item_header_setor:first-child {
         margin-bottom: 0.4rem;
     }
+}
+
+/* Botão para abrir a conclusão */
+
+.btn_abrir_conclusao {
+    background-color: #3b8c5a;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn_abrir_conclusao:hover {
+    background-color: #2d7047;
+}
+
+/* Formulário de conclusão */
+
+.area_conclusao {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #4169a8;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+.area_conclusao[hidden],
+.btn_abrir_conclusao[hidden] {
+    display: none !important;
+}
+
+.btn_cancelar_conclusao {
+    background-color: #dddddd;
+    color: black;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+/* Botão para iniciar atendimento */
+
+.btn_iniciar_atendimento {
+    background-color: #4169a8;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn_iniciar_atendimento:hover {
+    background-color: #305080;
+}
+
+/* Espaçamento dos botões abaixo da descrição */
+
+.div_item_buttons {
+    margin-top: 5px;
+    padding: 0 1px 1px;
+}
+
+/* Botão concluir o chamado */
+
+.btn_abrir_conclusao {
+    margin-top: 10px;
+    padding: 10px 10px;
+}
+
+/* Área de conclusão */
+
+.area_conclusao {
+    margin-top: 12px;
+    padding: 15px;
+    border: 1px solid #4169a8;
+    border-radius: 5px;
+}
+
+/* Texto acima da caixa de descrição */
+
+.area_conclusao label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+/* Caixa onde será descrita a conclusão */
+
+.area_conclusao .descricao_conclusao {
+    display: block;
+    width: 100%;
+    min-height: 90px;
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 0 0 12px;
+    border: 1px solid #a0a0a0;
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 14px;
+    resize: vertical;
+}
+
+/* Padronização dos botões Cancelar e Confirmar */
+
+.btn_cancelar_conclusao,
+.btn_concluir {
+    background-color: #dddddd;
+    color: #000000;
+    padding: 10px 15px;
+    border: 1px solid #bbbbbb;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+/* Efeito ao passar o mouse */
+
+.btn_cancelar_conclusao:hover,
+.btn_concluir:hover {
+    background-color: #cccccc;
+}
+
+/* Mantém os elementos ocultos quando necessário */
+
+.area_conclusao[hidden],
+.btn_abrir_conclusao[hidden] {
+    display: none !important;
 }

@@ -259,12 +259,78 @@ function criarItem(solicitacao) {
             </div>
         </summary>
         <div class="div_item_info">
-            <p><b>Responsável:</b> ${solicitacao.responsavel}</p>
-            <p><b>Descrição:</b> ${solicitacao.descricao}</p>
-        </div>
+
+    <p><b>Responsável:</b> ${solicitacao.responsavel}</p>
+
+    <p><b>Descrição:</b> ${solicitacao.descricao}</p>
+
+    ${solicitacao.estadoAtual === "Concluído" && solicitacao.observacaoConclusao ? `
+        <p>
+            <b>Observação da conclusão:</b>
+            ${solicitacao.observacaoConclusao}
+        </p>
+    ` : ""}
+
+    </div>
         <div class="div_item_buttons">
-            <!-- Concluir Chamado #AQUI -->
+
+    ${solicitacao.estadoAtual !== "Concluído" ? `
+
+        <div class="div_item_buttons">
+
+    ${solicitacao.estadoAtual === "Aberto" ? `
+
+        <button
+            type="button"
+            class="btn_iniciar_atendimento"
+            data-chamado="${solicitacao.chamado}"
+        >
+            Iniciar Atendimento
+        </button>
+
+    ` : ""}
+
+    ${solicitacao.estadoAtual === "Em Andamento" ? `
+
+        <button type="button" class="btn_abrir_conclusao">
+            Concluir Chamado
+        </button>
+
+        <div class="area_conclusao" hidden>
+
+            <label>
+                Descreva uma observação para concluir o chamado:
+            </label>
+
+            <textarea
+                class="descricao_conclusao"
+                placeholder="Digite aqui o que foi realizado..."
+                rows="3"
+            ></textarea>
+
+            <button type="button" class="btn_cancelar_conclusao">
+                Cancelar
+            </button>
+
+            <button
+                type="button"
+                class="btn_concluir"
+                data-chamado="${solicitacao.chamado}"
+            >
+                Confirmar Conclusão
+            </button>
+
         </div>
+
+    ` : ""}
+
+        </div>
+
+    ` : `
+        <p>Este chamado já foi concluído.</p>
+    `}
+
+</div>
     </details>
     `;
 
