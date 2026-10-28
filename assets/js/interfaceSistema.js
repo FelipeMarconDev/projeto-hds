@@ -28,6 +28,7 @@ const btnAplicarFiltro   = document.querySelector("#btn_aplicar_filtro");
 const numEmAberto   = document.querySelector("#num_em_aberto");
 const setorSolChart = document.querySelector("#setores_solicitantes_chart");
 const setorReqChart = document.querySelector("#setores_requisitados_chart");
+let setorCharts = [];
 
 // CSS
 const mediaQuery = window.matchMedia("(max-width: 972px)");
@@ -204,7 +205,7 @@ export function exibirNumSolEmAbertoDashboard(contador) {
 function desenharGrafico(dados, setorCard, setorDir) {
     const dadosFiltrados = dados.filter(e => e[setorDir] > 0);
 
-    new Chart(setorCard, {
+    return new Chart(setorCard, {
         type: "doughnut",
         data: {
             labels: dadosFiltrados.map(e => e["nome"]),
@@ -229,8 +230,11 @@ function desenharGrafico(dados, setorCard, setorDir) {
 
 // Interface com o main() para desenhar os gráficos do Dashboard
 export function exibirGraficosDashboard(dados) {
-    desenharGrafico(dados, setorSolChart, "solicitante");
-    desenharGrafico(dados, setorReqChart, "requisitado");
+    if (setorCharts.length)
+        setorCharts.forEach(e => e.destroy());
+
+    setorCharts[0] = desenharGrafico(dados, setorSolChart, "solicitante");
+    setorCharts[1] = desenharGrafico(dados, setorReqChart, "requisitado");
 }
 
 // Cria um elemento <li>, e coloca as informações de um objeto passado como
