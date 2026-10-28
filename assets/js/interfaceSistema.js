@@ -13,6 +13,10 @@ const dashboard         = document.querySelector("#dashboard");
 const listaSolicitacoes = document.querySelector("#lista_solicitacoes");
 const novaSolicitacao   = document.querySelector("#nova_solicitacao");
 const formulario        = document.querySelector("#form_nova_solicitacao");
+const selectSetorSolicitante = document.querySelector("#select_setor_solicitante");
+const selectSetorRequisitado = document.querySelector("#select_setor_requisitado");
+const selectPrioridade       = document.querySelector("#select_prioridade");
+const btnFormCancelar        = document.querySelector("#btn_formulario_cancelar");
 
 // Aside
 const barraLateralFiltro = document.querySelector("#barra_lateral_filtro");
@@ -79,8 +83,8 @@ export function configurarEventos(gerenciador, atualizarSolicitacoes, atualizarD
         if (btnCriar.contains(event.target) && novaSolicitacao.hidden) {
             mostrarNovaSolicitacao(true);
         // Se o painel NÃO for o alvo clicado
-        } else if (!novaSolicitacao.contains(event.target)) {
-            mostrarNovaSolicitacao(false);
+        } else if (!novaSolicitacao.contains(event.target) && !novaSolicitacao.hidden) {
+            cancelarNovaSolicitacao();
         }
     });
 
@@ -89,6 +93,10 @@ export function configurarEventos(gerenciador, atualizarSolicitacoes, atualizarD
         if (event.key === "Escape") {
             mostrarNovaSolicitacao(false);
         }
+    });
+
+    btnFormCancelar.addEventListener("click", () => {
+        cancelarNovaSolicitacao();
     });
 
     // Evento que acontece quando o formulário é enviado, previne a execução
@@ -100,12 +108,43 @@ export function configurarEventos(gerenciador, atualizarSolicitacoes, atualizarD
         // Transforma array de arrays gerado pelo FormData(name, value) em objeto
         // e adiciona como Nova Solicitação ao GerenciadorSolicitacoes
         const dados = Object.fromEntries(new FormData(formulario));
-        gerenciador.adicionar(dados);
+        const alertaValidacao = validarDadosForm(dados);
+
+        // Se não houve alerta na validação, adiciona ao gerenciador
+        if (!alertaValidacao)
+            gerenciador.adicionar(dados);
+        else {
+            const alertaTitulo = "Preenchimento incorreto.\n\n"
+            alert(alertaTitulo + alertaValidacao);
+            return;
+        }
+
+        formulario.reset();
+        mostrarNovaSolicitacao(false);
 
         // Atualiza a interface após cada nova inserção
         atualizarDashboard();
         atualizarSolicitacoes();
     });
+}
+
+function validarDadosForm(dados) {
+    let alertaValidacao = "";
+
+    if (dados.titulo.length < 3)
+        alertaValidacao = "Título deve conter 3 ou mais caracteres.";
+    else if (dados.responsavel.length < 3)
+        alertaValidacao = "Responsável deve conter 3 ou mais caracteres.";
+    else if (dados.descricao.length < 10)
+        alertaValidacao = "Descrição deve conter 10 ou mais caracteres.";
+    else if (dados.setorSolicitante === "default")
+        alertaValidacao = "Setor Solicitante precisa ser selecionado.";
+    else if (dados.setorRequisitado === "default")
+        alertaValidacao = "Setor Requisitado precisa ser selecionado.";
+    else if (dados.setorSolicitante === dados.setorRequisitado)
+        alertaValidacao = "Setor Solicitante e Requisitado não podem ser iguais.";
+
+    return alertaValidacao;
 }
 
 export function configurarFiltros(atualizarSolicitacoes) {
@@ -183,7 +222,31 @@ function preencherFiltros(setores, prioridades, estados) {
     }
 }
 
-function preencherFormSelects(setores, prioridades, estados) {}
+function preencherFormSelects(setores, prioridades) {
+    for (const setorSol of setores) {
+        const option = document.createElement("option");
+        option.textContent = setorSol;
+        option.value = setorSol;
+        option.dataset.setorSolicitante = setorSol;
+        selectSetorSolicitante.append(option);
+    }
+
+    for (const setorReq of setores) {
+        const option = document.createElement("option");
+        option.textContent = setorReq;
+        option.value = setorReq;
+        option.dataset.setorRequisitado = setorReq;
+        selectSetorRequisitado.append(option);
+    }
+
+    for (const prioridade of prioridades) {
+        const option = document.createElement("option");
+        option.textContent = prioridade;
+        option.value = prioridade;
+        option.dataset.prioridade = prioridade;
+        selectPrioridade.append(option);
+    }
+}
 
 // Primeira função executada pelo main(), carrega os textos do menu de filtros e
 // formulário, oculta a barra de filtro caso a tela obedeça ao media-query
@@ -303,6 +366,13 @@ export function exibirSolicitacoes(solicitacoes) {
 function mostrarNovaSolicitacao(mostrar) {
     novaSolicitacao.hidden = !mostrar;
     btnCriar.classList.toggle("btn_nav_ativo", !novaSolicitacao.hidden);
+}
+
+function cancelarNovaSolicitacao() {
+    if (confirm("Deseja sair desta Solicitação?")) {
+        formulario.reset();
+        mostrarNovaSolicitacao(false);
+    }
 }
 
 // Essa função oculta a barra de filtros por padrão se a largura de tela for
