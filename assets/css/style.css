@@ -408,20 +408,12 @@ aside button, #form_botoes button {
 
 #btn_formulario_cancelar {
     background-color: white;
+    margin-right: 0.4rem;
 }
 
 #lista_solicitacoes li, #lista_solicitacoes summary {
     list-style: none;
     cursor: pointer;
-}
-
-#form_nova_solicitacao button {
-    cursor: pointer;
-    appearance: none;
-    border: none;
-    border-radius: 0.4rem;
-    font-size: 1.2rem;
-    padding: 0.4rem 0.8rem;
 }
 
 #lista_solicitacoes summary:focus-visible {
@@ -580,17 +572,17 @@ footer {
         top: var(--header_altura);
         left: 50%;
         transform: translateX(-50%);
-        width: auto;
+        width: min(20rem, calc(100vw - 2rem));
         max-height: calc(100dvh - var(--header_altura) - 1rem);
-        margin-right: 1rem;
+        margin: 0 !important;
         overflow-y: auto;
     }
 }
 
 @media (max-width: 720px) {
     #nova_solicitacao {
-        min-width: 20rem;
-        width: 100%;
+        min-width: calc(100dvw - 2rem);
+        padding: 0 1rem;
     }
 
     #form_nova_solicitacao {
