@@ -236,7 +236,7 @@ aside ul li:active, aside ul li.filtro_ativo {
     margin-top: 1rem;
 }
 
-aside button {
+aside button, #form_botoes button {
     cursor: pointer;
     appearance: none;
     border: none;
@@ -251,24 +251,24 @@ aside button {
     margin-right: 0.4rem;
 }
 
-#btn_limpar_filtro:hover {
+#btn_limpar_filtro:hover, #btn_formulario_cancelar:hover {
     background-color: var(--cor_secundaria_light2);
 }
 
-#btn_limpar_filtro:active {
+#btn_limpar_filtro:active, #btn_formulario_cancelar:active {
     background-color: var(--cor_secundaria_light1);
 }
 
-#btn_aplicar_filtro {
+#btn_aplicar_filtro, #btn_formulario_criar {
     background-color: var(--cor_primaria_dark2);
     color: var(--cor_clara);
 }
 
-#btn_aplicar_filtro:hover {
+#btn_aplicar_filtro:hover, #btn_formulario_criar:hover {
     background-color: var(--cor_secundaria_dark2);
 }
 
-#btn_aplicar_filtro:active {
+#btn_aplicar_filtro:active, #btn_formulario_criar:active {
     background-color: var(--cor_secundaria_dark1);
 }
 
@@ -334,10 +334,81 @@ aside button {
     left: 50%;
     transform: translate(-50%, -50%);
     min-width: 640px;
+    width: auto;
     min-height: 480px;
     background-color: var(--cor_clara);
     border: 1px solid var(--cor_escura);
     box-shadow: 0 0 1px 5000px rgba(0, 0, 0, 0.6) !important;
+    padding: 1rem;
+    z-index: 3;
+}
+
+#form_nova_solicitacao {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.2rem 1rem;
+    font-size: 1rem;
+    width: 100%;
+    padding: 1rem;
+}
+
+.form_bloco {
+    margin-top: 1rem;
+    justify-self: stretch;
+    align-self: stretch;
+    min-width: 0;
+}
+
+.form_bloco label {
+    font-weight: 600;
+    margin-left: 0.4rem;
+    margin-bottom: 0.4rem;
+}
+
+.form_bloco input, .form_bloco textarea {
+    width: 100% !important;
+}
+
+.form_bloco:has(input[name="titulo"]), .form_bloco:has(textarea[name="descricao"]) {
+    grid-column: 1 / -1;
+}
+
+#form_nova_solicitacao label {
+    display: block;
+}
+
+#form_nova_solicitacao input, #form_nova_solicitacao select {
+    font-size: 1rem;
+}
+
+#form_nova_solicitacao input {
+    height: 3.3rem;
+    padding: 0 1rem;
+    border-radius: 2rem;
+}
+
+#form_nova_solicitacao select {
+    height: 3.3rem;
+    padding: 0 1rem;
+    border-radius: 2rem;
+}
+
+#form_nova_solicitacao textarea {
+    border-radius: 1rem;
+    font-size: 1rem;
+    font-family: sans-serif;
+    padding: 0.6rem;
+}
+
+#form_botoes {
+    display: flex;
+    justify-content: flex-end;
+    align-self: flex-end;
+}
+
+#btn_formulario_cancelar {
+    background-color: white;
+    margin-right: 0.4rem;
 }
 
 #lista_solicitacoes li, #lista_solicitacoes summary {
@@ -501,11 +572,21 @@ footer {
         top: var(--header_altura);
         left: 50%;
         transform: translateX(-50%);
-        min-width: 20rem;
-        width: auto;
+        width: min(20rem, calc(100vw - 2rem));
         max-height: calc(100dvh - var(--header_altura) - 1rem);
+        margin: 0 !important;
         overflow-y: auto;
-        z-index: 3;
+    }
+}
+
+@media (max-width: 720px) {
+    #nova_solicitacao {
+        min-width: calc(100dvw - 2rem);
+        padding: 0 1rem;
+    }
+
+    #form_nova_solicitacao {
+        grid-template-columns: 1fr;
     }
 }
 

@@ -77,6 +77,38 @@
                 <h3>Nova Solicitação</h3>
                 <form id="form_nova_solicitacao">
                     <!-- Abertura de Chamado #AQUI -->
+                    <div class="form_bloco">
+                        <label for="input_titulo">Título:</label>
+                        <input id="input_titulo" type="text" name="titulo" required>
+                    </div>
+                    <div class="form_bloco">
+                        <label for="input_responsavel">Responsável:</label>
+                        <input id="input_responsavel" type="text" name="responsavel" required>
+                    </div>
+                    <div class="form_bloco">
+                        <label for="select_prioridade">Prioridade:</label>
+                        <select id="select_prioridade" name="prioridade" required></select>
+                    </div>
+                    <div class="form_bloco">
+                        <label for="select_setor_solicitante">Setor Solicitante:</label>
+                        <select id="select_setor_solicitante" name="setorSolicitante" required>
+                            <option data-setor-solicitante="default" value="default">Escolha um setor...</option>
+                        </select>
+                    </div>
+                    <div class="form_bloco">
+                        <label for="select_setor_requisitado">Setor Requisitado:</label>
+                        <select id="select_setor_requisitado" name="setorRequisitado" required>
+                            <option data-setor-requisitado="default" value="default">Escolha um setor...</option>
+                        </select>
+                    </div>
+                    <div class="form_bloco">
+                        <label for="textarea_descricao">Descrição:</label>
+                        <textarea id="textarea_descricao" name="descricao" rows="10" required></textarea>
+                    <div class="form_bloco">
+                    <div id="form_botoes">
+                        <button id="btn_formulario_cancelar" type="button">Cancelar</button>
+                        <button id="btn_formulario_criar" type="submit">Criar</button>
+                    </div>
                 </form>
             </section>
         </div>
