@@ -111,9 +111,10 @@ export function configurarEventos(gerenciador, atualizarSolicitacoes, atualizarD
         const alertaValidacao = validarDadosForm(dados);
 
         // Se não houve alerta na validação, adiciona ao gerenciador
-        if (!alertaValidacao)
+        if (!alertaValidacao) {
+            adicionarItemLocalStorage(dados);
             gerenciador.adicionar(dados);
-        else {
+        } else {
             const alertaTitulo = "Preenchimento incorreto.\n\n"
             alert(alertaTitulo + alertaValidacao);
             return;
@@ -126,6 +127,14 @@ export function configurarEventos(gerenciador, atualizarSolicitacoes, atualizarD
         atualizarDashboard();
         atualizarSolicitacoes();
     });
+}
+
+// Pega o array do localStorage, converte de JSON para array de objects,
+// adiciona o item a ele, devolve ao localStorage formatando como JSON novamente
+function adicionarItemLocalStorage(dados) {
+    const arrayLocalStorage = JSON.parse(localStorage.getItem("solicitacoesTemporarias") || "[]");
+    arrayLocalStorage.push(dados);
+    localStorage.setItem("solicitacoesTemporarias", JSON.stringify(arrayLocalStorage));
 }
 
 function validarDadosForm(dados) {

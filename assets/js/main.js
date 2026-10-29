@@ -30,12 +30,13 @@ async function main() {
     // Arquivo JSON é convertido para uma array associativo
     const resposta = await fetch("./assets/dados/solicitacoesIniciaisExemplos.json");
     const solicitacoesIniciaisExemplos = await resposta.json();
+    const solicitacoesTemporarias = JSON.parse(localStorage.getItem("solicitacoesTemporarias") || "[]");
 
     // Inicia o objeto para Gerenciar as Solicitações
     const gerenciador = new GerenciadorSolicitacoes();
 
     // Carrega os dados do array associativo para o objeto gerenciador
-    for (const elem of solicitacoesIniciaisExemplos) {
+    for (const elem of solicitacoesIniciaisExemplos.concat(solicitacoesTemporarias)) {
         const _ = gerenciador.adicionar(elem);
     }
 
