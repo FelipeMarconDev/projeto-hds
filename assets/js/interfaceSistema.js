@@ -91,7 +91,7 @@ export function configurarEventos(gerenciador, atualizarSolicitacoes, atualizarD
     // Cria evento para fechar pop-up de Nova Solicitação quando o usuário aperta Esc
     document.addEventListener("keydown", event => {
         if (event.key === "Escape") {
-            mostrarNovaSolicitacao(false);
+            cancelarNovaSolicitacao();
         }
     });
 
