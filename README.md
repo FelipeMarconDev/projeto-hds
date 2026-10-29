@@ -37,3 +37,9 @@ Solucionar um problema de uma empresa de médio porte que tem retrabalho causado
 - Clonar o repositório e executar as seguintes etapas:
     - No terminal, na pasta raiz do projeto: `python -m http.server 8000`
     - No navegador Google Chrome, digitar a URL `localhost:8000`
+
+## Melhorias do Sistema
+
+- Exibição das solicitações foram alteradas de texto para tags, e  os detalhes foram ocultados até que o usuário clique na solicitação.
+- Inclusão de gráficos para facilitar a compreensão da origem e destino das solicitações. Acompanhar resultados, identificação de problemas e ajudar na tomada de decisões.
+- Campo de descrição foi criado para a conclusão do chamado, permitindo que seja dado um feedback ao solicitante responsável.
