@@ -43,3 +43,8 @@ Solucionar um problema de uma empresa de médio porte que tem retrabalho causado
 - Exibição das solicitações foram alteradas de texto para tags, e  os detalhes foram ocultados até que o usuário clique na solicitação.
 - Inclusão de gráficos para facilitar a compreensão da origem e destino das solicitações. Acompanhar resultados, identificação de problemas e ajudar na tomada de decisões.
 - Campo de descrição foi criado para a conclusão do chamado, permitindo que seja dado um feedback ao solicitante responsável.
+
+## Apresentação
+
+- Canva: https://canva.link/an19e2jmwj4r9y6
+
