@@ -11,6 +11,7 @@ export default class Solicitacao {
         estadoAtual = DadosSistema.estados[0],
         prioridade = DadosSistema.prioridades[0],
         descricao = "Não informado.",
+        observacaoConclusao = "",
     }) {
         this.chamado = ++Solicitacao.totalChamados;
         this.titulo = titulo;
@@ -20,6 +21,7 @@ export default class Solicitacao {
         this.estadoAtual = estadoAtual;
         this.prioridade = prioridade;
         this.descricao = descricao;
+        this.observacaoConclusao = observacaoConclusao;
     }
 
     avancarEstado() {

@@ -13,4 +13,8 @@ export default class GerenciadorSolicitacoes {
     listar() {
         return this.solicitacoes;
     }
+
+    editarSolicitacao(solicitacao) {
+        return this.solicitacoes.splice(solicitacao.chamado - 1, 1, solicitacao)[0];
+    }
 }

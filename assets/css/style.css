@@ -614,7 +614,6 @@ footer {
 .btn_abrir_conclusao {
     background-color: #3b8c5a;
     color: white;
-    padding: 10px 15px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -625,14 +624,6 @@ footer {
 }
 
 /* Formulário de conclusão */
-
-.area_conclusao {
-    margin-top: 10px;
-    padding: 10px;
-    border: 1px solid #4169a8;
-    border-radius: 5px;
-    margin-top: 15px;
-}
 
 .area_conclusao[hidden],
 .btn_abrir_conclusao[hidden] {
@@ -731,11 +722,4 @@ footer {
 .btn_cancelar_conclusao:hover,
 .btn_concluir:hover {
     background-color: #cccccc;
-}
-
-/* Mantém os elementos ocultos quando necessário */
-
-.area_conclusao[hidden],
-.btn_abrir_conclusao[hidden] {
-    display: none !important;
 }
