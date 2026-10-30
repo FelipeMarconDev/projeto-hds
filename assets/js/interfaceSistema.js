@@ -43,7 +43,7 @@ const mediaQuery = window.matchMedia("(max-width: 972px)");
  * Aguarda algo acontecer para executar uma função específica *
  *************************************************************/
 
-export function configurarEventos(gerenciador, atualizarSolicitacoes, atualizarDashboard) {
+export function configurarEventos(gerenciador, atualizarSolicitacoes, atualizarDashboard, estados) {
     // Cria evento para ativar e desativar o painel de Dashboard quando o
     // usuário clica no botão
     btnDashboard.addEventListener("click", () => {
@@ -127,33 +127,124 @@ export function configurarEventos(gerenciador, atualizarSolicitacoes, atualizarD
         atualizarDashboard();
         atualizarSolicitacoes();
     });
-}
 
-// Pega o array do localStorage, converte de JSON para array de objects,
-// adiciona o item a ele, devolve ao localStorage formatando como JSON novamente
-function adicionarItemLocalStorage(dados) {
-    const arrayLocalStorage = JSON.parse(localStorage.getItem("solicitacoesTemporarias") || "[]");
-    arrayLocalStorage.push(dados);
-    localStorage.setItem("solicitacoesTemporarias", JSON.stringify(arrayLocalStorage));
-}
+    // Iniciar atendimento de um chamado
+    document.addEventListener("click", function(evento) {
 
-function validarDadosForm(dados) {
-    let alertaValidacao = "";
+        const botaoIniciar = evento.target.closest(".btn_iniciar_atendimento");
 
-    if (dados.titulo.length < 3)
-        alertaValidacao = "Título deve conter 3 ou mais caracteres.";
-    else if (dados.responsavel.length < 3)
-        alertaValidacao = "Responsável deve conter 3 ou mais caracteres.";
-    else if (dados.descricao.length < 10)
-        alertaValidacao = "Descrição deve conter 10 ou mais caracteres.";
-    else if (dados.setorSolicitante === "default")
-        alertaValidacao = "Setor Solicitante precisa ser selecionado.";
-    else if (dados.setorRequisitado === "default")
-        alertaValidacao = "Setor Requisitado precisa ser selecionado.";
-    else if (dados.setorSolicitante === dados.setorRequisitado)
-        alertaValidacao = "Setor Solicitante e Requisitado não podem ser iguais.";
+        if (!botaoIniciar) {
+            return;
+        }
 
-    return alertaValidacao;
+        // Identifica o número do chamado
+        const numeroChamado = botaoIniciar.dataset.chamado;
+
+        // Procura o chamado na lista
+        const solicitacao = gerenciador.listar().find(
+            item => String(item.chamado) === String(numeroChamado)
+        );
+
+        if (!solicitacao) {
+            alert("Chamado não encontrado.");
+            return;
+        }
+
+        // Só permite iniciar chamados que estão abertos
+        if (solicitacao.estadoAtual !== estados[0]) {
+            return;
+        }
+
+        // Altera o status para Em Andamento
+        solicitacao.avancarEstado();
+
+        // Guarda a solicitação no Armazenamento Persistente
+        adicionarItemLocalStorage(solicitacao, solicitacao.chamado - 1);
+
+        // Atualiza a interface
+        atualizarSolicitacoes();
+        atualizarDashboard();
+
+    });
+
+    // Concluir atendimento de um chamado
+    document.addEventListener("click", function(evento) {
+
+        const botaoConcluir = evento.target.closest(".btn_concluir");
+
+        if (!botaoConcluir) {
+            return;
+        }
+
+        // Identifica o chamado
+        const numeroChamado = botaoConcluir.dataset.chamado;
+
+        // Procura a solicitação correspondente
+        const solicitacao = gerenciador.listar().find(
+            item => String(item.chamado) === String(numeroChamado)
+        );
+
+        if (!solicitacao) {
+            alert("Chamado não encontrado.");
+            return;
+        }
+
+        // Verifica se o chamado está em andamento
+        if (solicitacao.estadoAtual !== estados[1]) {
+            return;
+        }
+
+        // Localiza o campo da observação
+        const areaConclusao = botaoConcluir.closest(".area_conclusao");
+        const campoObservacao = areaConclusao.querySelector(".descricao_conclusao");
+
+        const observacao = campoObservacao.value.trim();
+
+        // Impede a conclusão sem observação
+        if (!observacao) {
+            alert("Descreva o que foi realizado antes de concluir o chamado.");
+            campoObservacao.focus();
+            return;
+        }
+
+        // Guarda a observação no objeto da solicitação
+        solicitacao.observacaoConclusao = observacao;
+
+        // Avança de Em Andamento para Concluído
+        solicitacao.avancarEstado();
+
+        // Guarda a solicitação no Armazenamento Persistente
+        adicionarItemLocalStorage(solicitacao, solicitacao.chamado - 1);
+
+        // Atualiza a interface
+        atualizarSolicitacoes();
+        atualizarDashboard();
+
+    });
+
+    // Abrir e fechar a área de conclusão dos chamados
+    document.addEventListener("click", function(evento) {
+        const botaoAbrir = evento.target.closest(".btn_abrir_conclusao");
+
+        if (botaoAbrir) {
+            const chamado = botaoAbrir.closest(".div_item_buttons");
+            const area = chamado.querySelector(".area_conclusao");
+
+            area.hidden = false;
+            botaoAbrir.hidden = true;
+        }
+
+        const botaoCancelar = evento.target.closest(".btn_cancelar_conclusao");
+
+        if (botaoCancelar) {
+            const chamado = botaoCancelar.closest(".div_item_buttons");
+            const area = chamado.querySelector(".area_conclusao");
+            const botaoAbrir = chamado.querySelector(".btn_abrir_conclusao");
+
+            area.hidden = true;
+            botaoAbrir.hidden = false;
+        }
+    });
 }
 
 export function configurarFiltros(atualizarSolicitacoes) {
@@ -470,4 +561,37 @@ function limparFiltros(categorias) {
     }
 
     outlineFiltroAtivo();
+}
+
+// Pega o array do localStorage, converte de JSON para array de objects,
+// adiciona o item a ele, devolve ao localStorage formatando como JSON novamente
+function adicionarItemLocalStorage(dados, posicao = -1) {
+    const arrayLocalStorage = JSON.parse(localStorage.getItem("solicitacoesTemporarias") || "[]");
+
+    if (posicao === -1)
+        arrayLocalStorage.push(dados);
+    else {
+        arrayLocalStorage.splice(posicao, 1, dados);
+    }
+
+    localStorage.setItem("solicitacoesTemporarias", JSON.stringify(arrayLocalStorage));
+}
+
+function validarDadosForm(dados) {
+    let alertaValidacao = "";
+
+    if (dados.titulo.length < 3)
+        alertaValidacao = "Título deve conter 3 ou mais caracteres.";
+    else if (dados.responsavel.length < 3)
+        alertaValidacao = "Responsável deve conter 3 ou mais caracteres.";
+    else if (dados.descricao.length < 10)
+        alertaValidacao = "Descrição deve conter 10 ou mais caracteres.";
+    else if (dados.setorSolicitante === "default")
+        alertaValidacao = "Setor Solicitante precisa ser selecionado.";
+    else if (dados.setorRequisitado === "default")
+        alertaValidacao = "Setor Requisitado precisa ser selecionado.";
+    else if (dados.setorSolicitante === dados.setorRequisitado)
+        alertaValidacao = "Setor Solicitante e Requisitado não podem ser iguais.";
+
+    return alertaValidacao;
 }
